@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>无缝轮播图-原生js封装</title>
+	<link rel="shortcut icon" href="../public/image/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
+	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
+	<style type="text/css">
+		.bannerha-container{
+            width: 800px;
+            height: 300px;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .bannerha-wrapper{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: -webkit-box;
+            display: box;
+        }
+        .bannerha-slide{
+            background: #ccc;
+            list-style: none;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 18px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .bannerha-pagination{
+            position: absolute;
+            text-align: center;
+            z-index: 10;
+
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+        }
+        .bannerha-pagination-bullet{
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+            border-radius: 100%;
+            background: #fff;
+            opacity: .5;
+            margin: 0 4px;
+        }
+        .bannerha-pagination-bullet-active{
+            opacity: 1;
+            background: #ff0;
+        }
+        .bannerha-button{
+            width: 100px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            background-color: #333;
+            z-index: 1;
+            cursor: pointer;
+            filter: alpha(opacity:20);
+            opacity: 0.2;
+            -webkit-transition: all .2s ease-in;
+            -moz-transition: all .2s ease-in;
+            -ms-transition: all .2s ease-in;
+            -o-transition: all .2s ease-in;
+            transition: all .2s ease-in;
+        }
+        .bannerha-button.active{
+            filter: alpha(opacity:60);
+            opacity: 0.6;
+        }
+        .bannerha-button-prev{
+            left:0;
+        }
+        .bannerha-button-next{
+            right:0;
+        }
+	</style>
+	<script type="text/javascript" src="../code/bannerha.js"></script>
+</head>
+<body>
+	<div class="header">
+        <a href="https://github.com/mumuy/widget" target="_blank">项目地址</a>
+        <a href="/">返回首页</a>
+    </div>
+    <div class="main">
+
+    	<div class="bannerha-container" id="banner1">
+		    <ul class="bannerha-wrapper" >
+		        <li class="bannerha-slide">slide-1</li>
+		        <li class="bannerha-slide">slide-2</li>
+		        <li class="bannerha-slide">slide-3</li>
+		        <li class="bannerha-slide">slide-4</li>
+		        <li class="bannerha-slide">slide-5</li>
+		    </ul>
+		</div>
+		<script type="text/javascript">
+			new bannerha("#banner1");
+		</script>
+		<div class="code">
+			<p>
+				不传参数，执行默认参数，自动轮播
+			</p>
+			<p>new bannerha("#banner1");</p>
+		</div>
+
+		<div class="bannerha-container" id="banner2">
+		    <ul class="bannerha-wrapper" >
+		        <li class="bannerha-slide">slide-1</li>
+		        <li class="bannerha-slide">slide-2</li>
+		        <li class="bannerha-slide">slide-3</li>
+		        <li class="bannerha-slide">slide-4</li>
+		        <li class="bannerha-slide">slide-5</li>
+		    </ul>
+		</div>
+		<script type="text/javascript">
+			new bannerha("#banner2",{
+				circle: true,
+	            speeds: 50,
+	            pnBtn: true,
+	            autoPlay: true,
+	            times: 1500
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				调整自动轮播速度和缓冲速度
+			</p>
+			<p>new bannerha("#banner2",{
+				circle: true,
+	            speeds: 50,
+	            pnBtn: true,
+	            autoPlay: true,
+	            times: 1500
+			});</p>
+		</div>
+
+
+		<div class="bannerha-container" id="banner3">
+		    <ul class="bannerha-wrapper" >
+		        <li class="bannerha-slide">slide-1</li>
+		        <li class="bannerha-slide">slide-2</li>
+		        <li class="bannerha-slide">slide-3</li>
+		        <li class="bannerha-slide">slide-4</li>
+		        <li class="bannerha-slide">slide-5</li>
+		    </ul>
+		</div>
+		<script type="text/javascript">
+			new bannerha("#banner3",{
+	            autoPlay: false
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				关闭自动轮播
+			</p>
+			<p>new bannerha("#banner3",{
+	            autoPlay: false
+			});</p>
+		</div>
+
+		<div class="bannerha-container" id="banner4">
+		    <ul class="bannerha-wrapper" >
+		        <li class="bannerha-slide">slide-1</li>
+		        <li class="bannerha-slide">slide-2</li>
+		        <li class="bannerha-slide">slide-3</li>
+		        <li class="bannerha-slide">slide-4</li>
+		        <li class="bannerha-slide">slide-5</li>
+		    </ul>
+		</div>
+		<script type="text/javascript">
+			new bannerha("#banner4",{
+	            pnBtn: false
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				关闭左右切换按钮
+			</p>
+			<p>new bannerha("#banner4",{
+	            pnBtn: false
+			});</p>
+		</div>
+
+
+		<div class="bannerha-container" id="banner5">
+		    <ul class="bannerha-wrapper" >
+		        <li class="bannerha-slide">slide-1</li>
+		        <li class="bannerha-slide">slide-2</li>
+		        <li class="bannerha-slide">slide-3</li>
+		        <li class="bannerha-slide">slide-4</li>
+		        <li class="bannerha-slide">slide-5</li>
+		    </ul>
+		</div>
+		<script type="text/javascript">
+			new bannerha("#banner5",{
+	            circle: false
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				关闭底部小按钮
+			</p>
+			<p>new bannerha("#banner5",{
+	            circle: false
+			});</p>
+		</div>
+
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new bannerha(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>circle</td>
+						<td>true</td>
+						<td>是否生成底部圆圈按钮</td>
+					</tr>
+					<tr>
+						<td>speeds</td>
+						<td>20</td>
+						<td>设置缓冲运动速度</td>
+					</tr>
+					<tr>
+						<td>pnBtn</td>
+						<td>true</td>
+						<td>是否生成左右切换按钮</td>
+					</tr>
+					<tr>
+						<td>autoPlay</td>
+						<td>true</td>
+						<td>是否自动轮播</td>
+					</tr>
+					<tr>
+						<td>times</td>
+						<td>3000</td>
+						<td>设置自动轮播间隔时间</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
