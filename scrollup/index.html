@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>无缝向上滚动-原生js封装</title>
+	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
+	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
+	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
+	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
+	<style type="text/css">
+		.scrollup-container{
+			width: 240px;
+			border: 3px solid #ababab;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+			box-shadow: 2px 2px 10px #ababab;
+			margin: 50px auto 0;
+			text-align: left;
+			padding: 10px 25px;
+			height: 140px;
+			overflow: hidden;
+		}
+		.scrollup-list{
+			height: 24px;
+			line-height: 24px;
+		}
+	</style>
+	<script type="text/javascript" src="../code/scrollup.js"></script>
+</head>
+<body>
+	<div class="header">
+        <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
+        <a href="/widget/">返回首页</a>
+    </div>
+    <div class="main">
+
+		<div class="scrollup-container">
+			<ul class="scrollup-content">
+				<li class="scrollup-list">list-1</li>
+				<li class="scrollup-list">list-2</li>
+				<li class="scrollup-list">list-3</li>
+				<li class="scrollup-list">list-4</li>
+				<li class="scrollup-list">list-5</li>
+				<li class="scrollup-list">list-6</li>
+				<li class="scrollup-list">list-7</li>
+				<li class="scrollup-list">list-8</li>
+				<li class="scrollup-list">list-9</li>
+			</ul>
+		</div>
+
+		<script type="text/javascript">
+			var h=new scrollup(".scrollup-container");
+			console.log(h)
+		</script>
+
+
+
+
+    </div>
+</body>
+</html>
