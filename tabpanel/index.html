@@ -2,55 +2,261 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>tab面板</title>
+	<title>Tab面板-原生js封装</title>
 	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
 	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
 	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
 	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
 	<style type="text/css">
 		.tabpanel-container{
-			width: 300px;
+			width: 298px;
 			height: 100px;
 			margin: 10px auto;
+			border: 1px solid #999;
+    		overflow: hidden;
 		}
+		.tabpanel-title{
+			height: 27px;
+		    position: relative;
+		    background: #ccc;
+		}
+		.tabpanel-list{
+		    position: absolute;
+		    width: 301px;
+		    left: -1px;
+		}
+		.tabpanel-select{
+			float: left;
+			width: 58px;
+			height: 26px;
+		    line-height: 26px;
+		    text-align: center;
+		    overflow: hidden;
+		    border-bottom: 1px solid #999;
+		    padding: 0 1px;
+	        cursor: pointer;
+		}
+		.tabpanel-select.active{
+			background: #FFF;
+    		border-bottom-color: #FFF;
+			border-left: 1px solid #999;
+			border-right: 1px solid #999;
+			padding: 0;
+    		font-weight: bolder;
+		}
+		.tabpanel-content{
+			height: 73px;
+		}
+		.tabpanel-contentBox{
+			height: 100%;
+			text-align: center;
+            display: none;
+		}
+		.tabpanel-contentBox.active{
+			display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+		}
+
 	</style>
+	<script type="text/javascript" src="../code/tabpanel.js"></script>
 </head>
 <body>
-	<div class="tabpanel-container">
-		<ul class="tabpanel-list">
-			<li class="tabpanel-select">
-				select-1
-			</li>
-			<li class="tabpanel-select">
-				select-2
-			</li>
-			<li class="tabpanel-select">
-				select-3
-			</li>
-			<li class="tabpanel-select">
-				select-4
-			</li>
-			<li class="tabpanel-select">
-				select-5
-			</li>
-		</ul>
-		<div class="tabpanel-content">
-			<div class="tabpanel-contentBox">
-				content-1
+	<div class="header">
+        <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
+        <a href="/widget/">返回首页</a>
+    </div>
+    <div class="main">
+		<div class="tabpanel-container" id="tabpanel1">
+			<div class="tabpanel-title">
+				<ul class="tabpanel-list">
+					<li class="tabpanel-select active">se-1</li>
+					<li class="tabpanel-select">se-2</li>
+					<li class="tabpanel-select">se-3</li>
+					<li class="tabpanel-select">se-4</li>
+					<li class="tabpanel-select">se-5</li>
+				</ul>
 			</div>
-			<div class="tabpanel-contentBox">
-				content-2
-			</div>
-			<div class="tabpanel-contentBox">
-				content-3
-			</div>
-			<div class="tabpanel-contentBox">
-				content-4
-			</div>
-			<div class="tabpanel-contentBox">
-				content-5
+
+			<div class="tabpanel-content">
+				<div class="tabpanel-contentBox active">content-1</div>
+				<div class="tabpanel-contentBox">content-2</div>
+				<div class="tabpanel-contentBox">content-3</div>
+				<div class="tabpanel-contentBox">content-4</div>
+				<div class="tabpanel-contentBox">content-5</div>
 			</div>
 		</div>
+		<script type="text/javascript">
+			new tabpanel("#tabpanel1");
+		</script>
+
+		<div class="code">
+			<p>
+				不传参数，执行默认参数，点击切换
+			</p>
+			<p>new tabpanel("#tabpanel1");</p>
+		</div>
+
+
+		<div class="tabpanel-container" id="tabpanel2">
+			<div class="tabpanel-title">
+				<ul class="tabpanel-list">
+					<li class="tabpanel-select active">se-1</li>
+					<li class="tabpanel-select">se-2</li>
+					<li class="tabpanel-select">se-3</li>
+					<li class="tabpanel-select">se-4</li>
+					<li class="tabpanel-select">se-5</li>
+				</ul>
+			</div>
+
+			<div class="tabpanel-content">
+				<div class="tabpanel-contentBox active">content-1</div>
+				<div class="tabpanel-contentBox">content-2</div>
+				<div class="tabpanel-contentBox">content-3</div>
+				<div class="tabpanel-contentBox">content-4</div>
+				<div class="tabpanel-contentBox">content-5</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			new tabpanel("#tabpanel2",{
+				event:"mouseover"
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				event:"mouseover" 执行默认参数，鼠标经过切换
+			</p>
+			<p>new tabpanel("#tabpanel2",{
+				event:"mouseover"
+			});</p>
+		</div>
+
+
+		<div class="tabpanel-container" id="tabpanel3">
+			<div class="tabpanel-title">
+				<ul class="tabpanel-list">
+					<li class="tabpanel-select active">se-1</li>
+					<li class="tabpanel-select">se-2</li>
+					<li class="tabpanel-select">se-3</li>
+					<li class="tabpanel-select">se-4</li>
+					<li class="tabpanel-select">se-5</li>
+				</ul>
+			</div>
+
+			<div class="tabpanel-content">
+				<div class="tabpanel-contentBox active">content-1</div>
+				<div class="tabpanel-contentBox">content-2</div>
+				<div class="tabpanel-contentBox">content-3</div>
+				<div class="tabpanel-contentBox">content-4</div>
+				<div class="tabpanel-contentBox">content-5</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			new tabpanel("#tabpanel3",{
+				autom: true,
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				autom: true 执行默认参数，开启自动切换
+			</p>
+			<p>new tabpanel("#tabpanel3",{
+				autom: true
+			});</p>
+		</div>
+
+
+		<div class="tabpanel-container" id="tabpanel4">
+			<div class="tabpanel-title">
+				<ul class="tabpanel-list">
+					<li class="tabpanel-select active">se-1</li>
+					<li class="tabpanel-select">se-2</li>
+					<li class="tabpanel-select">se-3</li>
+					<li class="tabpanel-select">se-4</li>
+					<li class="tabpanel-select">se-5</li>
+				</ul>
+			</div>
+
+			<div class="tabpanel-content">
+				<div class="tabpanel-contentBox active">content-1</div>
+				<div class="tabpanel-contentBox">content-2</div>
+				<div class="tabpanel-contentBox">content-3</div>
+				<div class="tabpanel-contentBox">content-4</div>
+				<div class="tabpanel-contentBox">content-5</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			new tabpanel("#tabpanel4",{
+				event:"mouseover",
+				autom: true,
+				time:500
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				time:500 执行默认参数，设置自动切换时间
+			</p>
+			<p>new tabpanel("#tabpanel4",{
+				event:"mouseover",
+				autom: true,
+				time:500
+			});</p>
+		</div>
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new tabpanel(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>event</td>
+						<td>"click"</td>
+						<td>可设置鼠标经过"mouseover"</td>
+					</tr>
+					<tr>
+						<td>autom</td>
+						<td>false</td>
+						<td>是否启动自动切换</td>
+					</tr>
+					<tr>
+						<td>time</td>
+						<td>2000</td>
+						<td>设置自动切换间隔时间</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
 	</div>
+
 </body>
 </html>
