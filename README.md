@@ -18,3 +18,11 @@
 ```javascript
 new bannerha(selector,{options});
 ```
+
+
+### Tab面板-原生js封装
+简介：Tab面板、响应式、参数可调控等等
+[演示](http://www.huanghanlian.com/widget/tabpanel/)
+```javascript
+new tabpanel(selector,{options});
+```
