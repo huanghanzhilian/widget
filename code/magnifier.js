@@ -23,17 +23,34 @@
 		}
 
 		this.containers = this.container[0];
-		this.small=this.container.find(".magnifier-small")[0];
-		this.mark=this.container.find(".magnifier-mark")[0];
-		this.float_box=this.container.find(".magnifier-float-box")[0];
-		this.big_box=this.container.find(".magnifier-big-box");
-		this.big_Image = this.big_box.find("img")[0];
+		// this.small=this.container.find(".magnifier-small")[0];
+		// this.mark=this.container.find(".magnifier-mark")[0];
+		// this.float_box=this.container.find(".magnifier-float-box")[0];
+		// this.big_box=this.container.find(".magnifier-big-box");
+		// this.big_Image = this.big_box.find("img")[0];
 		this.init();
 	}
 	Magnifier.prototype = {
 		init: function() {
 			var self = this;
-			this.event();
+			this.rendDom();
+			//this.event();
+		},
+		//渲染dom
+		rendDom:function(){
+			var self = this;
+			var small = document.createElement("div");
+            small.className = "magnifier-small";
+            var mark=document.createElement("div");
+            mark.className ="magnifier-mark";
+            var float=document.createElement("div");
+            float.className ="magnifier-float-box";
+            var img=document.createElement("img");
+            img.setAttribute("src","img/c2.jpg")
+            small.appendChild(mark);
+            small.appendChild(float);
+            small.appendChild(img);
+            this.containers.appendChild(small);
 		},
 		//执行初始化鼠标事件
 		event: function() {
