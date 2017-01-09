@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>放大镜-原生js封装</title>
+	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
+	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
+	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
+	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
+	<style type="text/css">
+		.magnifier-container{
+			width: 400px;
+			height: 255px;
+			margin: 50px;
+			position: relative;
+    		border: 1px solid #ccc;
+		}
+		.magnifier-small{
+			position: relative;
+			z-index: 1;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+		.magnifier-small img{
+			/*max-width: 100%;
+			max-height: 100%;*/
+		}
+		.magnifier-mark {
+		    position: absolute;
+		    display: block;
+		    width: 400px;
+		    height: 255px;
+		    background-color: #fff;
+		    filter: alpha(opacity:0);
+		    opacity: 0;
+		    z-index: 10;
+		}
+		.magnifier-float-box {
+		    display: none;
+		    width: 160px;
+		    height: 120px;
+		    position: absolute;
+		    background: #ffffcc;
+		    border: 1px solid #ccc;
+		    filter: alpha(opacity:50);
+		    opacity: 0.5;
+		}
+		.magnifier-big-box {
+		    display: none;
+		    position: absolute;
+		    top: 0;
+		    left: 460px;
+		    width: 400px;
+		    height: 300px;
+		    overflow: hidden;
+		    border: 1px solid #ccc;
+		    z-index: 1;
+		}
+
+		.magnifier-big-box img {
+		    position: absolute;
+		    z-index: 5;
+		}
+		.magnifier-thumb{}
+		.magnifier-thumb li{
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			vertical-align: middle;
+			line-height: 50px;
+			margin-right: 5px;
+			border: 2px solid #fff;
+			/*display: table-cell;*/
+		}
+		.magnifier-thumb li.active{
+			border-color: #f40;
+		}
+		.magnifier-thumb li img{
+			max-width: 50px;
+			max-height: 50px;
+			vertical-align: middle;
+		}
+	</style>
+	<script type="text/javascript" src="../code/magnifier.js"></script>
+</head>
+<body>
+	<div class="header">
+        <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
+        <a href="/widget/">返回首页</a>
+    </div>
+    <div class="main">
+		<div class="magnifier-container">
+			<div class="magnifier-small">
+				<div class="magnifier-mark"></div>
+				<div class="magnifier-float-box"></div>
+				<img src="img/c2.jpg">
+			</div>
+			<div class="magnifier-big-box">
+		        <img src="img/c2a.jpg"/>
+		    </div>
+		</div>
+		<ul class="magnifier-thumb">
+			<li class="active">
+				<img src="img/c2.jpg">
+			</li>
+			<li>
+				<img src="img/macbook-small.jpg">
+			</li>
+		</ul>
+
+		<script type="text/javascript">
+			var k=new magnifier(".magnifier-container");
+			console.log(k)
+		</script>
+    </div>
+</body>
+</html>
