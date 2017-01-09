@@ -2,9 +2,10 @@
 	var Scrollup = function(el, opts) {
 		var self = this;
 		var defaults = {
-			event: "click",
-			autom: false,
-			time:2000
+			interval: false,     //是否开启间隔滚动
+			conlistH:1,         //间隔滚动高度
+			intimes:2000,
+			time:40,
 		}
 		opts = opts || {};
 		for (var w in defaults) {
@@ -23,9 +24,9 @@
 
 		this.containers = this.container[0];
 		this.content = this.container.find(".scrollup-content");
-		// this.contentBox = this.container.find(".tabpanel-contentBox");
-		// this.index = 0;
+		this.conlistH=this.content[0].children[0].offsetHeight;
 		this.timer = null;
+		this.timers = null;
 		this.init();
 	}
 	Scrollup.prototype = {
@@ -35,29 +36,81 @@
 			this.copy_con();
 		},
 		//复制con
-		copy_con:function(){
+		copy_con: function() {
 			var self = this;
-			var panel=document.createElement("ul");
+			var panel = document.createElement("ul");
 			panel.className = "scrollup-content";
-			panel.innerHTML=this.content[0].innerHTML;
+			panel.innerHTML = this.content[0].innerHTML;
 			this.containers.appendChild(panel);
-			this.timer = setInterval(function(){
+			if (this.params.interval) {
+				this.timers = setTimeout(function() {
+					self.startScroll();
+				}, self.params.intimes);
+				self.containers.addEventListener('mouseover', function() {
+					clearInterval(self.timer);
+					clearTimeout(self.timers);
+				}, false);
+				self.containers.addEventListener('mouseout', function() {
+					if (self.containers.scrollTop % 24 == 0) {
+						clearInterval(self.timer);
+						clearTimeout(self.timers);
+						self.timers = setTimeout(function() {
+							self.startScroll();
+						}, self.params.intimes);
+					} else {
+						clearInterval(self.timer);
+						clearTimeout(self.timers);
+						self.startScroll();
+					}
+
+				}, false);
+			} else {
+				this.setInt();
+				self.containers.addEventListener('mouseover', function() {
+					clearInterval(self.timer);
+				}, false);
+				self.containers.addEventListener('mouseout', function() {
+					self.setInt();
+				}, false);
+			}
+		},
+		//定时器
+		setInt: function() {
+			var self = this;
+			this.timer = setInterval(function() {
 				self.scrollUp();
-			}, 50);
-			//console.log(this.containers.scrollTop)
-			//self.scrollUp()
+			}, self.params.time);
 		},
 		//滚动
-		scrollUp:function(){
+		scrollUp: function() {
 			var self = this;
-			var area = this.containers.scrollTop;
-			var boxheig=this.content[0].scrollHeight;
-			if (area >= boxheig) {
-		 		area = 0;
-		 	} else {
-		 		area++;
-		 	}
-		 //console.log(area)
+			if (this.containers.scrollTop >= this.content[0].scrollHeight) {
+				this.containers.scrollTop = 0;
+			} else {
+				this.containers.scrollTop++;
+			}
+		},
+		//间隔滚动
+		startScroll: function() {
+			var self = this;
+			this.timer = setInterval(function() {
+				self.scrollUpcy();
+			}, self.params.time);
+			this.containers.scrollTop++;
+		},
+		scrollUpcy: function() {
+			var self = this;
+			if (this.containers.scrollTop % (this.conlistH*this.params.conlistH) == 0) {
+				clearInterval(this.timer);
+				this.timers = setTimeout(function() {
+					self.startScroll();
+				}, self.params.intimes);
+			} else {
+				this.containers.scrollTop++;
+				if (this.containers.scrollTop >= this.containers.scrollHeight / 2) {
+					this.containers.scrollTop = 0;
+				}
+			}
 		}
 	}
 

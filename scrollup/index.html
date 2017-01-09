@@ -15,9 +15,9 @@
 			-webkit-border-radius: 5px;
 			border-radius: 5px;
 			box-shadow: 2px 2px 10px #ababab;
-			margin: 50px auto 0;
+			margin: 30px auto;
 			text-align: left;
-			padding: 10px 25px;
+			padding: 0px 25px;
 			height: 140px;
 			overflow: hidden;
 		}
@@ -35,7 +35,7 @@
     </div>
     <div class="main">
 
-		<div class="scrollup-container">
+		<div class="scrollup-container" id="scrollup1">
 			<ul class="scrollup-content">
 				<li class="scrollup-list">list-1</li>
 				<li class="scrollup-list">list-2</li>
@@ -50,9 +50,151 @@
 		</div>
 
 		<script type="text/javascript">
-			var h=new scrollup(".scrollup-container");
-			console.log(h)
+			new scrollup("#scrollup1");
 		</script>
+
+		<div class="code">
+			<p>
+				不传参数，执行默认参数
+			</p>
+			<p>new scrollup("#scrollup1");</p>
+		</div>
+
+
+		<div class="scrollup-container" id="scrollup2">
+			<ul class="scrollup-content">
+				<li class="scrollup-list">list-1</li>
+				<li class="scrollup-list">list-2</li>
+				<li class="scrollup-list">list-3</li>
+				<li class="scrollup-list">list-4</li>
+				<li class="scrollup-list">list-5</li>
+				<li class="scrollup-list">list-6</li>
+				<li class="scrollup-list">list-7</li>
+				<li class="scrollup-list">list-8</li>
+				<li class="scrollup-list">list-9</li>
+			</ul>
+		</div>
+
+		<script type="text/javascript">
+			new scrollup("#scrollup2",{
+				time:70
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				time:70，设置滚动速度 默认值40，执行其他默认参数
+			</p>
+			<p>new scrollup("#scrollup2",{
+				time:70
+			});</p>
+		</div>
+
+		<div class="scrollup-container" id="scrollup3">
+			<ul class="scrollup-content">
+				<li class="scrollup-list">list-1</li>
+				<li class="scrollup-list">list-2</li>
+				<li class="scrollup-list">list-3</li>
+				<li class="scrollup-list">list-4</li>
+				<li class="scrollup-list">list-5</li>
+				<li class="scrollup-list">list-6</li>
+				<li class="scrollup-list">list-7</li>
+				<li class="scrollup-list">list-8</li>
+				<li class="scrollup-list">list-9</li>
+			</ul>
+		</div>
+
+		<script type="text/javascript">
+			new scrollup("#scrollup3",{
+				interval:true
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				interval:true 是否执行间隔滚动 默认值false，执行其他默认参数
+			</p>
+			<p>new scrollup("#scrollup3",{
+				interval:true
+			});</p>
+		</div>
+
+
+		<div class="scrollup-container" id="scrollup4">
+			<ul class="scrollup-content">
+				<li class="scrollup-list">list-1</li>
+				<li class="scrollup-list">list-2</li>
+				<li class="scrollup-list">list-3</li>
+				<li class="scrollup-list">list-4</li>
+				<li class="scrollup-list">list-5</li>
+				<li class="scrollup-list">list-6</li>
+				<li class="scrollup-list">list-7</li>
+				<li class="scrollup-list">list-8</li>
+				<li class="scrollup-list">list-9</li>
+			</ul>
+		</div>
+
+		<script type="text/javascript">
+			new scrollup("#scrollup4",{
+				interval:true,
+				conlistH:2,
+				intimes:2000,
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				interval:true 是否执行间隔滚动 默认值false，conlistH:2 间隔子元素的高度，默认一个高度， intimes:3000, 间隔滚动时间，默认2000，执行其他默认参数
+			</p>
+			<p>new scrollup("#scrollup4",{
+				interval:true,
+				conlistH:2,
+				intimes:2000,
+			});</p>
+		</div>
+
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new scrollup(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>interval</td>
+						<td>false</td>
+						<td>是否执行间隔滚动</td>
+					</tr>
+					<tr>
+						<td>conlistH</td>
+						<td>1</td>
+						<td>间隔子元素的高度</td>
+					</tr>
+					<tr>
+						<td>intimes</td>
+						<td>2000</td>
+						<td>间隔滚动时间</td>
+					</tr>
+					<tr>
+						<td>time</td>
+						<td>40</td>
+						<td>设置滚动速度</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
 
 
