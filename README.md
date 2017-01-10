@@ -26,3 +26,20 @@ new bannerha(selector,{options});
 ```javascript
 new tabpanel(selector,{options});
 ```
+
+
+### 无缝向上滚动-原生js封装
+简介：无缝滚动、间隔滚动、响应式、参数可调控等等
+[演示](http://www.huanghanlian.com/widget/scrollup/)
+```javascript
+new scrollup(selector,{options});
+```
+
+
+
+### 放大镜-原生js封装
+简介：电商放大镜封装、参数可调控等等
+[演示](http://www.huanghanlian.com/widget/magnifier/)
+```javascript
+new magnifier(selector,{options});
+```

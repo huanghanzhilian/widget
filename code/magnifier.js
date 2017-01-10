@@ -2,10 +2,7 @@
 	var Magnifier = function(el, opts) {
 		var self = this;
 		var defaults = {
-			interval: false,     //是否开启间隔滚动
-			conlistH:1,         //间隔滚动高度
-			intimes:2000,
-			time:40,
+			event: "mouseover",
 		}
 		opts = opts || {};
 		for (var w in defaults) {
@@ -23,34 +20,67 @@
 		}
 
 		this.containers = this.container[0];
-		// this.small=this.container.find(".magnifier-small")[0];
-		// this.mark=this.container.find(".magnifier-mark")[0];
-		// this.float_box=this.container.find(".magnifier-float-box")[0];
-		// this.big_box=this.container.find(".magnifier-big-box");
-		// this.big_Image = this.big_box.find("img")[0];
+		this.contbox = this.container.find(".magnifier-container")[0];
+		this.conmain = this.container.find(".magnifier-container")[0];
 		this.init();
 	}
 	Magnifier.prototype = {
 		init: function() {
 			var self = this;
 			this.rendDom();
-			//this.event();
+			this.mark = this.container.find(".magnifier-mark")[0];
+			this.float_box = this.container.find(".magnifier-float-box")[0];
+			this.big_box = this.container.find(".magnifier-big-box");
+			this.small = this.container.find(".magnifier-small")[0];
+			this.big_Image = this.big_box.find("img")[0];
+			this.event();
 		},
 		//渲染dom
-		rendDom:function(){
+		rendDom: function() {
 			var self = this;
+			var initimg = this.container.find(".magnifier-thumb li img")[0].getAttribute("src");
+			var initimgs = this.container.find(".magnifier-thumb li img")[0].getAttribute("data-source");
 			var small = document.createElement("div");
-            small.className = "magnifier-small";
-            var mark=document.createElement("div");
-            mark.className ="magnifier-mark";
-            var float=document.createElement("div");
-            float.className ="magnifier-float-box";
-            var img=document.createElement("img");
-            img.setAttribute("src","img/c2.jpg")
-            small.appendChild(mark);
-            small.appendChild(float);
-            small.appendChild(img);
-            this.containers.appendChild(small);
+			small.className = "magnifier-small";
+			var mark = document.createElement("div");
+			mark.className = "magnifier-mark";
+			var float = document.createElement("div");
+			float.className = "magnifier-float-box";
+			var img = document.createElement("img");
+			img.setAttribute("src", initimg)
+			small.appendChild(mark);
+			small.appendChild(float);
+			small.appendChild(img);
+			var big_box = document.createElement("div");
+			big_box.className = "magnifier-big-box";
+			var boximg = document.createElement("img");
+			boximg.setAttribute("src", initimgs);
+			big_box.appendChild(boximg);
+			this.conmain.appendChild(small);
+			this.conmain.appendChild(big_box);
+			this.boximg = this.container.find(".magnifier-small img")[0];
+			this.tabimg();
+		},
+		//执行切换图片
+		tabimg: function() {
+			var self = this;
+			this.tabimgs = this.conmain = this.container.find(".magnifier-thumb li");
+			for (var i = 0; i < this.tabimgs.length; i++) {
+				self.tabimgs[i].addEventListener(this.params.event, function() {
+					for (var j = 0; j < self.tabimgs.length; j++) {
+						self.tabimgs[j].className = "";
+					}
+					this.className = "active";
+					var onec = this.children[0].getAttribute("src");
+					var onecd = this.children[0].getAttribute("data-source");
+					self.change(onec, onecd);
+				}, false);
+			}
+		},
+		//改变大小图片
+		change: function(o, b) {
+			this.boximg.setAttribute("src", o);
+			this.big_Image.setAttribute("src", b);
 		},
 		//执行初始化鼠标事件
 		event: function() {
@@ -64,15 +94,15 @@
 				self.big_box[0].style.display = "none";
 			}, false);
 			self.mark.addEventListener('mousemove', function(e) {
-				var e = e || window.event;  //兼容多个浏览器的event参数模式
+				var e = e || window.event; //兼容多个浏览器的event参数模式
 				self.moveevent(e)
 			}, false);
 		},
 		//开始移动
 		moveevent: function(e) {
 			var self = this;
-			var left = e.clientX - this.containers.offsetLeft - this.small.offsetLeft - this.float_box.offsetWidth / 2;
-			var top = e.clientY - this.containers.offsetTop - this.small.offsetTop - this.float_box.offsetHeight / 2;
+			var left = e.clientX - this.contbox.offsetLeft - this.small.offsetLeft - this.float_box.offsetWidth / 2;
+			var top = e.clientY - this.contbox.offsetTop - this.small.offsetTop - this.float_box.offsetHeight / 2;
 			if (left < 0) {
 				left = 0;
 			} else if (left > (this.mark.offsetWidth - this.float_box.offsetWidth)) {

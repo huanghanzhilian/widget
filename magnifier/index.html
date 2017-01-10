@@ -8,6 +8,9 @@
 	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
 	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
 	<style type="text/css">
+		.magnifier-box{
+			margin-bottom: 15px;
+		}
 		.magnifier-container{
 			width: 400px;
 			height: 255px;
@@ -90,32 +93,59 @@
         <a href="/widget/">返回首页</a>
     </div>
     <div class="main">
-    	<div class="magnifier-box">
-    		<div class="magnifier-container">
-				<!-- <div class="magnifier-small">
-					<div class="magnifier-mark"></div>
-					<div class="magnifier-float-box"></div>
-					<img src="img/c2.jpg">
-				</div>
-				<div class="magnifier-big-box">
-			        <img src="img/c2a.jpg"/>
-			    </div> -->
-			</div>
+		<div class="magnifier-box" id="magnifier1">
+    		<div class="magnifier-container"></div>
 			<ul class="magnifier-thumb">
 				<li class="active">
-					<img src="img/c2.jpg">
+					<img src="img/c2.jpg" data-source="img/c2a.jpg">
 				</li>
 				<li>
-					<img src="img/macbook-small.jpg">
+					<img src="img/macbook-small.jpg" data-source="img/macbook-big.jpg">
 				</li>
 			</ul>
     	</div>
-		
-
 		<script type="text/javascript">
-			var k=new magnifier(".magnifier-container");
-			console.log(k)
+			new magnifier("#magnifier1");
 		</script>
+		<div class="code">
+			<p>
+				不传参数，执行默认参数，鼠标经过预览图切换
+			</p>
+			<p>new magnifier("#magnifier1");</p><br/>
+			<p>
+				event:"click"，点击预览图切换图片，默认"mouseover" 执行默认参数
+			</p>
+			<p>new magnifier("#magnifier1",{
+				event:"click"
+			});</p>
+		</div>
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new magnifier(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>event</td>
+						<td>"mouseover"</td>
+						<td>可设置鼠标点击"click"</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
     </div>
 </body>
 </html>
