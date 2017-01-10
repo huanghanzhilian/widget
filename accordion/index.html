@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>手风琴-原生js封装</title>
+	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
+	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
+	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
+	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
+	<style type="text/css">
+		.accordion-container {
+		    height: 200px;
+		    margin: 0 auto;
+		    /*border: 1px solid #ccc;*/
+			border-right: 1px solid #ccc;
+			border-top: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;
+		    overflow: hidden;
+		    position: relative;
+		}
+		.accordion-list{
+			position: absolute;
+			left: 0;
+			width: 200px;
+			border-left: 1px solid #ccc;
+			height: 100%;
+			/*-webkit-transition: all .1s linear;
+			-moz-transition: all .1s linear;
+			-o-transition: all .1s linear;
+			-ms-transition: all .1s linear;
+			transition: all .1s linear;*/
+		}
+		/*.accordion-container li:last-child{
+			border:none;
+		}*/
+	</style>
+	<script type="text/javascript" src="../code/accordion.js"></script>
+</head>
+<body>
+	<div class="header">
+        <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
+        <a href="/widget/">返回首页</a>
+    </div>
+    <div class="main">
+		<div class="accordion-container">
+			<ul>
+				<li class="accordion-list">1</li>
+				<li class="accordion-list">2</li>
+				<li class="accordion-list">3</li>
+				<li class="accordion-list">4</li>
+				<li class="accordion-list">5</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var h=new accordion(".accordion-container");
+			console.log(h)
+		</script>
+    </div>
+</body>
+</html>
