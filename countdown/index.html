@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>倒计时-原生js封装</title>
+	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
+	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
+	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
+	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
+	<style type="text/css">
+		.countdown {
+		    margin-bottom: 15px;
+		}
+	</style>
+	<script type="text/javascript" src="../code/countdown.js"></script>
+</head>
+<body>
+	<div class="header">
+        <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
+        <a href="/widget/">返回首页</a>
+    </div>
+    <div class="main">
+    	<div class="countdown">
+			<p>#例子1# 12:30:50到12:00:00</p>
+			<p id="countdown" class="">12:30:30</p>
+		</div>
+
+		<script type="text/javascript">
+			new countdown("#countdown",{endtime:'12:00:00'});
+		</script>
+
+		<!-- <div id="countdown1">60</div>
+		<script type="text/javascript">
+			new countdown("#countdown1",{endtime:'5',countEnd:function(){alert(1)}});
+		</script> -->
+
+
+		<div class="code">
+			<p>
+				不传参数，执行默认参数，鼠标经过预览图切换
+			</p>
+			<p>new magnifier("#magnifier1");</p>
+		</div>
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new magnifier(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>event</td>
+						<td>"mouseover"</td>
+						<td>可设置鼠标点击"click"</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+    </div>
+</body>
+</html>

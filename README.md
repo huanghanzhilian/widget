@@ -43,3 +43,10 @@ new scrollup(selector,{options});
 ```javascript
 new magnifier(selector,{options});
 ```
+
+### 倒计时-原生js封装
+简介：倒计时、参数可调控等等
+[演示](http://www.huanghanlian.com/widget/countdown/)
+```javascript
+new countdown(selector,{options});
+```
