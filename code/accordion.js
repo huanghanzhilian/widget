@@ -2,7 +2,9 @@
 	var Accordion = function(el, opts) {
 		var self = this;
 		var defaults = {
-			event: "mouseover",
+			direction: "x",
+			expose:30,
+			speed:30
 		}
 		opts = opts || {};
 		for (var w in defaults) {
@@ -21,9 +23,7 @@
 
 		this.containers = this.container[0];//容器对象
 		this.list=this.container.find(".accordion-list");//获得NodeList对象集合
-		this.listWidth=this.list[0].offsetWidth;//单个列的宽度
-		this.exposeWidth=100;//设置掩藏门体露出的宽度
-		this.translate=this.listWidth-this.exposeWidth;//计算每道门打开时应移动的距离
+		this.exposeSize=this.params.expose;//设置掩藏门体露出的宽度
 		this.init();
 	}
 	Accordion.prototype = {
@@ -31,6 +31,15 @@
 		init: function() {
 			var self = this;
 			//设置容器总宽度
+			if(this.params.direction=='x'){
+				this.direction='left';
+				this.listSize=this.list[0].offsetWidth;
+				this.translate=this.listSize-this.exposeSize;
+			}else if(this.params.direction=='y'){
+				this.direction='top';
+				this.listSize=this.list[0].offsetHeight;
+				this.translate=this.listSize-this.exposeSize;
+			}
 			this.conwidth();
 			//设置每道门的初始位置
 			this.setlistPos();
@@ -39,13 +48,17 @@
 		},
 		//设置容器总宽度
 		conwidth:function(){
-			var boxWidth = this.listWidth + (this.list.length - 1) * this.exposeWidth;
-			this.containers.style.width = boxWidth + 'px';
+			var boxWidth = this.listSize + (this.list.length - 1) * this.exposeSize;
+			if(this.params.direction=='x'){
+				this.containers.style.width = boxWidth + 'px';
+			}else if(this.params.direction=='y'){
+				this.containers.style.height = boxWidth + 'px';
+			}
 		},
 		//设置每道门的初始位置
 		setlistPos:function(){
 			for (var i = 1, len = this.list.length; i < len; i++) {
-				this.list[i].style.left = this.listWidth + this.exposeWidth * (i - 1) + 'px';
+				this.list[i].style[this.direction] = this.listSize + this.exposeSize * (i - 1) + 'px';
 			}
 		},
 		//绑定事件
@@ -54,33 +67,70 @@
 			for (var i = 0; i < this.list.length; i++) {
 				(function(i){
 					self.list[i].addEventListener('click', function() {
-						var u=i;
-						console.log(u)
-						console.log(i)
 						self.setlistPos();
 						for (var j = 1; j <= i; j++) {
-							self.list[j].distance=parseInt(self.list[j].style.left) - self.translate;
-							// self.list[j].timer = setInterval(function() {
-							// 	console.log(j)//self.list[j].style.left=parseInt(self.list[j].style.left)-1+'px'
-							// },30)
-							self.cc(self.list[j],self.list[j].distance);
-							//console.log(self.list[j].style.left)
-							//self.list[j].style.left = parseInt(self.list[j].style.left) - self.translate + 'px';
+							starmove(self.list[j],{[self.direction]:parseInt(self.list[j].style[self.direction]) - self.translate},self.params.speed)
 						}
 					}, false);
 				})(i)
 			}
-		},
-		cc:function(el,pen){
-			var self = this;
-			el.timer = setInterval(function() {
-				var speed = (parseInt(el.style.left)-el.distance) / 8;
-				speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
-				el.style.left=parseInt(el.style.left)-speed+'px';
-				if(parseInt(el.style.left)==el.distance){
-					clearInterval(el.timer);
+		}
+	}
+
+
+	function starmove(obj, json, time, fn) {
+		var fn, times;
+		if (arguments[2] == undefined) {
+			times = 30;
+		} else if (typeof time == "function") {
+			times = 30;
+			fn = time;
+		} else if (typeof time == "number") {
+			times = time;
+		}
+
+		if (arguments[3]) {
+			fn = fn;
+		}
+		clearInterval(obj.zzz);
+		obj.zzz = setInterval(function() {
+			var flag = true;
+			for (var attr in json) {
+				var icur = 0;
+				if (attr == 'opacity') {
+					icur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+				} else {
+					icur = parseInt(getStyle(obj, attr));
 				}
-			}, 20)
+
+				var speed = (json[attr] - icur) / 8;
+				speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+				if (icur != json[attr]) {
+					flag = false;
+				}
+				if (attr == 'opacity') {
+					icur += speed;
+					obj.style.filter = 'alpha(opacity:' + icur + ')';
+					obj.style.opacity = icur / 100;
+				} else {
+					obj.style[attr] = icur + speed + 'px';
+				}
+
+			}
+			if (flag) {
+				clearInterval(obj.zzz);
+				if (fn) {
+					fn();
+				}
+			}
+		}, times)
+	}
+
+	function getStyle(obj, attr) {
+		if (obj.currentStyle) {
+			return obj.currentStyle[attr];
+		} else {
+			return getComputedStyle(obj, false)[attr];
 		}
 	}
 

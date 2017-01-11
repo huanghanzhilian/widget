@@ -10,7 +10,7 @@
 	<style type="text/css">
 		.accordion-container {
 		    height: 200px;
-		    margin: 0 auto;
+		    margin: 20px auto;
 		    /*border: 1px solid #ccc;*/
 			border-right: 1px solid #ccc;
 			border-top: 1px solid #ccc;
@@ -21,7 +21,7 @@
 		.accordion-list{
 			position: absolute;
 			left: 0;
-			width: 200px;
+			width: 150px;
 			border-left: 1px solid #ccc;
 			height: 100%;
 			/*-webkit-transition: all .1s linear;
@@ -33,6 +33,16 @@
 		/*.accordion-container li:last-child{
 			border:none;
 		}*/
+
+		.accordion-container2{
+			width: 500px;
+			border-top:none;
+		}
+		.accordion-container2 .accordion-list{
+			width: 100%;
+			height: 100px;
+			border-top: 1px solid #ccc;
+		}
 	</style>
 	<script type="text/javascript" src="../code/accordion.js"></script>
 </head>
@@ -41,8 +51,9 @@
         <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
         <a href="/widget/">返回首页</a>
     </div>
-    <div class="main">
-		<div class="accordion-container">
+
+	<div class="main">
+		<div class="accordion-container" id="accordion">
 			<ul>
 				<li class="accordion-list">1</li>
 				<li class="accordion-list">2</li>
@@ -52,9 +63,140 @@
 			</ul>
 		</div>
 		<script type="text/javascript">
-			var h=new accordion(".accordion-container");
-			console.log(h)
+			new accordion("#accordion");
 		</script>
+
+		<div class="code">
+			<p>
+				不传参数，执行默认参数，鼠标点击预览图切换
+			</p>
+			<p>new accordion("#accordion");</p>
+		</div>
+
+
+
+
+		<div class="accordion-container" id="accordion1">
+			<ul>
+				<li class="accordion-list">1</li>
+				<li class="accordion-list">2</li>
+				<li class="accordion-list">3</li>
+				<li class="accordion-list">4</li>
+				<li class="accordion-list">5</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			new accordion("#accordion1", {
+				direction: "x",
+				expose: 50
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				执行默认参数，设置横向展开{direction: "x"}，设置隐藏体可是区大小{expose: 50}默认单位为px，鼠标点击预览图切换
+			</p>
+			<p>new accordion("#accordion1", {
+				direction: "x",
+				expose: 50
+			});</p>
+		</div>
+
+
+
+		<div class="accordion-container accordion-container2" id="accordion2">
+			<ul>
+				<li class="accordion-list">1</li>
+				<li class="accordion-list">2</li>
+				<li class="accordion-list">3</li>
+				<li class="accordion-list">4</li>
+				<li class="accordion-list">5</li>
+				<li class="accordion-list">6</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			new accordion("#accordion2", {
+				direction: "y",
+				expose: 30
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				执行默认参数，设置纵向展开{direction: "y"}，设置隐藏体可是区大小{expose: 30}默认单位为px，鼠标点击预览图切换
+			</p>
+			<p>new accordion("#accordion2", {
+				direction: "y",
+				expose: 30
+			});</p>
+		</div>
+
+
+		<div class="accordion-container accordion-container2" id="accordion3">
+			<ul>
+				<li class="accordion-list">1</li>
+				<li class="accordion-list">2</li>
+				<li class="accordion-list">3</li>
+				<li class="accordion-list">4</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			new accordion("#accordion3", {
+				direction: "y",
+				expose: 30,
+				speed: 100
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				执行默认参数，设置纵向展开{direction: "y"}，设置隐藏体可是区大小{expose: 30}默认单位为px，设置运动速度{speed: 100}，鼠标点击预览图切换
+			</p>
+			<p>new accordion("#accordion3", {
+				direction: "y",
+				expose: 30,
+				speed: 100
+			});</p>
+		</div>
+
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new accordion(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>direction</td>
+						<td>"x"</td>
+						<td>设置横向展开{direction: "x"},设置纵向展开{direction: "y"}</td>
+					</tr>
+					<tr>
+						<td>expose</td>
+						<td>30</td>
+						<td>设置隐藏体可是区大小{expose: 30}默认单位为px</td>
+					</tr>
+					<tr>
+						<td>speed</td>
+						<td>30</td>
+						<td>设置运动速度{speed: 100}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
     </div>
 </body>
 </html>
