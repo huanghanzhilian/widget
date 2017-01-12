@@ -21,32 +21,93 @@
     </div>
     <div class="main">
     	<div class="countdown">
-			<p>#例子1# 12:30:50到12:00:00</p>
-			<p id="countdown" class="">12:30:30</p>
+			<p>#例子1# 12:00:00到11:50:00</p>
+			<p id="countdown" class="">12:00:00</p>
 		</div>
-
 		<script type="text/javascript">
-			new countdown("#countdown",{endtime:'12:00:00'});
+			new countdown("#countdown", {
+				endtime: '11:50:00'
+			});
 		</script>
-
-		<!-- <div id="countdown1">60</div>
-		<script type="text/javascript">
-			new countdown("#countdown1",{endtime:'5',countEnd:function(){alert(1)}});
-		</script> -->
-
 
 		<div class="code">
 			<p>
-				不传参数，执行默认参数，鼠标经过预览图切换
+				endtime: '11:50:00'，设置结束时间/默认值为空||0，执行其他默认参数
 			</p>
-			<p>new magnifier("#magnifier1");</p>
+			<p>new countdown("#countdown", {
+				endtime: '11:50:00'
+			});</p>
 		</div>
+
+		<div class="countdown">
+			<p>#例子2# 60到50</p>
+			<p id="countdown1" class="">60</p>
+		</div>
+		<script type="text/javascript">
+			new countdown("#countdown1", {
+				endtime: '50',
+				countEnd: function() {
+					alert("结束")
+				}
+			});
+		</script>
+		<div class="code">
+			<p>
+				countEnd: 'function'，设置结束倒计时后触发的函数/默认值为空，执行其他默认参数
+			</p>
+			<p>new countdown("#countdown1", {
+				endtime: '50',
+				countEnd: function() {
+					alert("结束")
+				}
+			});</p>
+		</div>
+
+		<div class="countdown">
+			<p>#例子3# 60到0</p>
+			<p id="countdown2" class=""></p>
+		</div>
+		<script type="text/javascript">
+			new countdown("#countdown2", {
+				starttime:'60'
+			});
+		</script>
+		<div class="code">
+			<p>
+				starttime:'60'，设置开始时间/默认值为元素内容，执行其他默认参数
+			</p>
+			<p>new countdown("#countdown2", {
+				starttime:'60'
+			});</p>
+		</div>
+
+
+		<div class="countdown">
+			<p>#例子4# 2017/01/11,11:00:00到1970/1/1</p>
+			<p id="countdown3" class="">2017/01/11,11:00:00</p>
+		</div>
+		<script type="text/javascript">
+			new countdown("#countdown3", {
+				format:'yy:MM:dd:hh:mm:ss'
+			});
+		</script>
+		<div class="code">
+			<p>
+				format:'yy:MM:dd:hh:mm:ss'，格式化输出的时间格式/默认值为'hh:mm:ss'，执行其他默认参数
+			</p>
+			<p>new countdown("#countdown3", {
+				format:'yy:MM:dd:hh:mm:ss'
+			});</p>
+		</div>
+
+
+
 
 		<div class="example">
 
 			<div class="call">
 				<h1>调用方法：</h1>
-				<p>new magnifier(selector,{options});</p>
+				<p>new countdown(selector,{options});</p>
 			</div>
 
 
@@ -61,9 +122,34 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>event</td>
-						<td>"mouseover"</td>
-						<td>可设置鼠标点击"click"</td>
+						<td>format</td>
+						<td>'hh:mm:ss'</td>
+						<td>格式化输出的时间格式，年(y)、月(M)、日(d)、小时(h)、分(m)、秒(s)、毫秒(S)、季度(q)</td>
+					</tr>
+					<tr>
+						<td>starttime</td>
+						<td>''</td>
+						<td>开始时间</td>
+					</tr>
+					<tr>
+						<td>endtime</td>
+						<td>''</td>
+						<td>结束时间</td>
+					</tr>
+					<tr>
+						<td>interval</td>
+						<td>1000</td>
+						<td>计数的时间间隔（单位：毫秒）</td>
+					</tr>
+					<tr>
+						<td>countEach(time)</td>
+						<td>[时间格式化输出]</td>
+						<td>每计时单位执行,其中time包含时间信息：year年、quarter季度、month月、day日、hour小时、minute分钟、second秒、microsecond毫秒、format格式化输出</td>
+					</tr>
+					<tr>
+						<td>countEnd(time)</td>
+						<td>[时间格式化输出]</td>
+						<td>计时结束后执行,其中time包含时间信息：year年、quarter季度、month月、day日、hour小时、minute分钟、second秒、microsecond毫秒、format格式化输出</td>
 					</tr>
 				</tbody>
 			</table>

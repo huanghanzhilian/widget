@@ -2,11 +2,11 @@
 	var Countdown = function(el, opts) {
 		var self = this;
 		var defaults = {
-			'format': 'hh:mm:ss',           //格式
-			'endtime': '',                  //结束时间
-			'interval': 1000,               //多久倒计时一次 单位：ms
-			'starttime':r(el)[0].innerHTML, //开始时间
-			'countEach': function(time) {   //每单位时间出发事件,传入一个对象，包含时间信息(month)和时间格式化输出(format)
+			'format': 'hh:mm:ss',                   //格式
+			'endtime': '',                          //结束时间
+			'interval': 1000,                       //多久倒计时一次 单位：ms
+			'starttime':r(el)[0].innerHTML,         //开始时间
+			'countEach': function(time) {           //每单位时间出发事件,传入一个对象，包含时间信息(month)和时间格式化输出(format)
 				r(el)[0].innerHTML=time['format']
 			},
 			'countEnd':function (time) {}			//倒计时结束回调事件
@@ -27,9 +27,9 @@
 			}), x
 		}
 
-		this._starttime=this.getTimestamp(this.params.starttime);   //开始时间
-		this._endtime=this.getTimestamp(this.params.endtime);       //结束时间
 		this._hander=null;
+		this._start=0;
+		this._end=0;
 		this.isTimestamp = isNaN(this.params.starttime)||isNaN(this.params.endtime);//是否为秒计数模式
 
 		this.init();
@@ -38,19 +38,28 @@
 		//初始化
 		init: function() {
 			var self = this;
+			this.reset();
+		},
+		reset:function(){
+			var self = this;
+			if (this.isTimestamp) {
+				this._start = this.params.starttime ? this.getTimestamp(this.params.starttime) : (+new Date());
+				this._end = this.getTimestamp(this.params.endtime);
+			} else {
+				this._start = this.params.starttime * 1e3;
+				this._end = this.params.endtime * 1e3;
+			}
 			this.count();
 		},
 		count:function(){
 			var self = this;
 			this._hander = setInterval(function(){
-				self._starttime-=self.params.interval;
-				self.params.countEach(self.getTime(self._starttime));
-				if(self._starttime<=self._endtime){
+				self._start-=self.params.interval;
+				self.params.countEach(self.getTime(self._start));
+				if(self._start<=self._end){
 					clearInterval(self._hander);
 					self.params.countEnd();
 				}
-				// console.log(self._starttime)
-				// console.log(self._endtime)
 			},self.params.interval);
 		},
 		//获取时间戳
