@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>11111111标签页-tabs-原生js封装</title>
+	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
+	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
+	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
+	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
+	<style type="text/css">
+			.tabs{
+				margin:0 auto 20px;
+			}
+			.tabs ul{
+				overflow:hidden;
+			}
+			.tabs1 .nav{
+				margin-bottom:10px;
+			}
+			.tabs1 .nav li{
+				float:left;
+				margin:0 10px;
+				border-bottom:1px solid #fff;
+			}
+			.tabs1 .nav a{
+				display:block;
+				line-height:38px;
+			}
+			.tabs1 .nav .active{
+				border-bottom:1px solid #000;
+			}
+			.tabs1 .content{
+				height:240px;
+				color:#666;
+				overflow:hidden;
+			}
+			.tabs1 .content li{
+				height:240px;
+				background:#f4f4f4;
+			}
+			.tabs2{
+				width: 160px;
+			}
+			.tabs2 .content{
+				height: 120px;
+			}
+			.tabs2 .content li{
+				width: 160px;
+				height: 120px;
+				background: #ccc;
+			}
+			.tabs2 .nav{
+				margin: 3px 0;
+				text-align:center;
+			}
+			.tabs2 .nav li{
+				display:inline-block;
+				width:12px;
+				height:12px;
+				background: #ccc;
+				margin-right:5px;
+			}
+			.tabs2 .nav li.active{background:#ff0;}
+			.tabs3 {
+				position: relative;
+				width: 220px;
+			}
+			.tabs3 .content{
+				width: 160px;
+				margin:0 auto;
+				height: 120px;
+			}
+			.tabs3 .content li{
+				width: 160px;
+				height: 120px;
+				background: #ccc;
+			}
+			.tabs3 .prev,.tabs3 .next{
+				display: block;
+				position: absolute;
+				width: 20px;
+				height: 118px;
+				background: #999;
+				border:1px solid #ccc;
+				text-align:center;
+				line-height:110px;
+				cursor:pointer;
+			}
+			.tabs3 .prev{
+				left:0;
+			}
+			.tabs3 .next{
+				right:0;
+			}
+
+	</style>
+	<script type="text/javascript" src="../code/tabs.js"></script>
+</head>
+<body>
+	<div class="header">
+        <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
+        <a href="/widget/">返回首页</a>
+    </div>
+    <div class="main">
+
+
+		<div class="tabs tabs1">
+			<ul class="nav">
+				<li><a href="javascript:;">标签1</a></li>
+				<li><a href="javascript:;">标签2</a></li>
+				<li><a href="javascript:;">标签3</a></li>
+				<li><a href="javascript:;">标签4</a></li>
+			</ul>
+			<ul class="content">
+				<li>这里是内容1</li>
+				<li>这里是内容2</li>
+				<li>这里是内容3</li>
+				<li>这里是内容4</li>
+			</ul>
+		</div>
+
+
+		<div class="code">
+			<p>
+				支持键盘事件,执行默认参数,鼠标点击分类显示,鼠标经过list执行默认参数
+			</p>
+			<p>new select("#select1");</p>
+		</div>
+
+
+		<div class="tabs tabs2">
+			<ul class="content">
+				<li style="background:#fc0;">幻灯片1</li>
+				<li style="background:#f0c;">幻灯片2</li>
+				<li style="background:#cf0;">幻灯片3</li>
+				<li style="background:#c0f;">幻灯片4</li>
+			</ul>
+			<ul class="nav">
+				<li><a href="javascript:;"></a></li>
+				<li><a href="javascript:;"></a></li>
+				<li><a href="javascript:;"></a></li>
+				<li><a href="javascript:;"></a></li>
+			</ul>
+		</div>
+
+		<div class="code">
+			<p>
+				支持键盘事件,执行默认参数,鼠标点击分类显示,鼠标经过list执行默认参数
+			</p>
+			<p>new select("#select1");</p>
+		</div>
+
+
+		<div class="tabs tabs3">
+			<a class="prev" href="javascript:;">&lt;</a>
+			<a class="next" href="javascript:;">&gt;</a>
+			<ul class="content">
+				<li style="background:#fc0;">幻灯片1</li>
+				<li style="background:#f0c;">幻灯片2</li>
+				<li style="background:#cf0;">幻灯片3</li>
+				<li style="background:#c0f;">幻灯片4</li>
+			</ul>
+		</div>
+
+
+
+
+
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new select(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>before</td>
+						<td>'#fff'</td>
+						<td>鼠标经过list初始化颜色色值</td>
+					</tr>
+					<tr>
+						<td>after</td>
+						<td>'#ccc'</td>
+						<td>鼠标经过list颜色色值</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+    </div>
+</body>
+</html>
