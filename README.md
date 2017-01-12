@@ -50,3 +50,10 @@ new magnifier(selector,{options});
 ```javascript
 new countdown(selector,{options});
 ```
+
+### 下拉框-原生js封装
+简介：下拉框、支持键盘事件、参数可调控等等
+[演示](http://www.huanghanlian.com/widget/select/)
+```javascript
+new select(selector,{options});
+```

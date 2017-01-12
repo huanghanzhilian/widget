@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>下拉框-原生js封装</title>
+	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
+	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
+	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
+	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
+	<style type="text/css">
+		.select-container {
+			width: 186px;
+			margin: 80px 0;
+			position: relative;
+			z-index: 10000;
+		}
+		.select-container .select-pose {
+			width: 150px;
+			height: 24px;
+			line-height: 24px;
+			display: block;
+			color: #807a62;
+			cursor: pointer;
+			font-style: normal;
+			padding-left: 4px;
+			padding-right: 30px;
+			border: 1px solid #333333;		    /* background: url(xjt.png) no-repeat right center; */
+		}
+		.select-pose:before {
+			content: '';
+			position: absolute;
+			right: 7px;
+			bottom: 7px;
+			width: 0;
+			height: 0;
+			border-width: 4px;
+			border-style: solid;
+			border-color: #888 transparent transparent transparent;
+			transition: all 0.2s;
+			-webkit-transition: all 0.2s;
+			-moz-transition: all 0.2s;
+			-o-transition: all 0.2s;
+			-ms-transition: all 0.2s;
+			transform-origin: 50% 25%;
+			-ms-transform-origin: 50% 25%;
+			-moz-transform-origin: 50% 25%;
+			-webkit-transform-origin: 50% 25%;
+			-o-transform-origin: 50% 25%;
+		}
+		.extended.select-pose:before {
+	      transform: rotate(180deg);
+	      -webkit-transform: rotate(180deg);
+	      -moz-transform: rotate(180deg);
+	      -o-transform: rotate(180deg);
+	      -ms-transform: rotate(180deg);
+	    }
+
+		.select-container .select-content {
+		    width: 184px;
+		    border: 1px solid #333333;
+		    background-color: #ffffff;
+		    position: absolute;
+		    z-index: 20000;
+		    margin-top: -1px;
+		    display: none;
+		    overflow: hidden;
+		}
+		.select-list{
+			cursor: pointer;
+			height: 24px;
+    		line-height: 24px;
+    		padding-left: 10px;
+		}
+
+	</style>
+	<script type="text/javascript" src="../code/select.js"></script>
+</head>
+<body>
+	<div class="header">
+        <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
+        <a href="/widget/">返回首页</a>
+    </div>
+    <div class="main">
+
+		<div class="select-container" id="select1">
+			<cite class="select-pose">请选择分类</cite>
+			<ul class="select-content">
+				<li class="select-list">选项一</li>
+				<li class="select-list">选项二</li>
+				<li class="select-list">选项三</li>
+				<li class="select-list">选项四</li>
+			</ul>
+		</div>
+
+		<script type="text/javascript">
+			new select("#select1");
+		</script>
+
+		<div class="code">
+			<p>
+				支持键盘事件,执行默认参数,鼠标点击分类显示,鼠标经过list执行默认参数
+			</p>
+			<p>new select("#select1");</p>
+		</div>
+
+
+
+
+
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new select(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>before</td>
+						<td>'#fff'</td>
+						<td>鼠标经过list初始化颜色色值</td>
+					</tr>
+					<tr>
+						<td>after</td>
+						<td>'#ccc'</td>
+						<td>鼠标经过list颜色色值</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+    </div>
+</body>
+</html>
