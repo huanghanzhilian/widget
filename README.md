@@ -57,3 +57,10 @@ new countdown(selector,{options});
 ```javascript
 new select(selector,{options});
 ```
+
+### 标签页-tabs-原生js封装
+简介：简易标签切换及淡入淡出幻灯片功能
+[演示](http://www.huanghanlian.com/widget/tabs/)
+```javascript
+new tabs(selector,{options});
+```

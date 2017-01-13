@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>11111111标签页-tabs-原生js封装</title>
+	<title>标签页-tabs-原生js封装</title>
 	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
 	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
 	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
@@ -49,18 +49,18 @@
 				height: 120px;
 				background: #ccc;
 			}
-			.tabs2 .nav{
+			.tabs2 .nav,.tabs3 .nav{
 				margin: 3px 0;
 				text-align:center;
 			}
-			.tabs2 .nav li{
+			.tabs2 .nav li,.tabs3 .nav li{
 				display:inline-block;
 				width:12px;
 				height:12px;
 				background: #ccc;
 				margin-right:5px;
 			}
-			.tabs2 .nav li.active{background:#ff0;}
+			.tabs2 .nav li.active,.tabs3 .nav li.active{background:#ff0;}
 			.tabs3 {
 				position: relative;
 				width: 220px;
@@ -118,13 +118,21 @@
 				<li>这里是内容4</li>
 			</ul>
 		</div>
-
+		<script type="text/javascript">
+			new tabs(".tabs1", {
+				triggerType: 'click',
+				activeIndex: 2,
+			});
+		</script>
 
 		<div class="code">
 			<p>
-				支持键盘事件,执行默认参数,鼠标点击分类显示,鼠标经过list执行默认参数
+				triggerType: 'click',表示鼠标点击时触发,activeIndex: 2,默认选中导航项的索引,执行默认参数
 			</p>
-			<p>new select("#select1");</p>
+			<p>new tabs(".tabs1", {
+				triggerType: 'click',
+				activeIndex: 2,
+			});</p>
 		</div>
 
 
@@ -143,11 +151,20 @@
 			</ul>
 		</div>
 
+		<script type="text/javascript">
+			new tabs(".tabs2", {
+				effect:'fade'
+			});
+		</script>
+
 		<div class="code">
 			<p>
-				支持键盘事件,执行默认参数,鼠标点击分类显示,鼠标经过list执行默认参数
+				淡入淡出<br/>
+				effect:'fade','fade'表淡入淡出效果,默认值/none,执行默认参数
 			</p>
-			<p>new select("#select1");</p>
+			<p>new tabs(".tabs2", {
+				effect:'fade'
+			});</p>
 		</div>
 
 
@@ -160,6 +177,29 @@
 				<li style="background:#cf0;">幻灯片3</li>
 				<li style="background:#c0f;">幻灯片4</li>
 			</ul>
+			<ul class="nav">
+				<li><a href="javascript:;"></a></li>
+				<li><a href="javascript:;"></a></li>
+				<li><a href="javascript:;"></a></li>
+				<li><a href="javascript:;"></a></li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			new tabs(".tabs3", {
+				effect:'fade',
+				auto: true,
+			});
+		</script>
+
+		<div class="code">
+			<p>
+				前后切换，自动播放<br/>
+				effect:'fade','fade'表淡入淡出效果,auto: true,自动播放,默认值/false,鼠标经过停止,鼠标离开播放。执行默认参数
+			</p>
+			<p>new tabs(".tabs3", {
+				effect:'fade',
+				auto: true,
+			});</p>
 		</div>
 
 
@@ -168,32 +208,119 @@
 
 
 		<div class="example">
-
 			<div class="call">
 				<h1>调用方法：</h1>
-				<p>new select(selector,{options});</p>
+				<p>$(selector).tabs(options,callback(api));</p>
 			</div>
-
-
 			<h2>options参数</h2>
 			<table>
 				<thead>
 					<tr>
 						<th width="150">参数</th>
-						<th width="100">默认值</th>
+						<th width="80">默认值</th>
 						<th>说明</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>before</td>
-						<td>'#fff'</td>
-						<td>鼠标经过list初始化颜色色值</td>
+						<td>contentCls</td>
+						<td>'content'</td>
+						<td>内容列表的class</td>
 					</tr>
 					<tr>
-						<td>after</td>
-						<td>'#ccc'</td>
-						<td>鼠标经过list颜色色值</td>
+						<td>navCls</td>
+						<td>'nav'</td>
+						<td>导航列表的class</td>
+					</tr>
+					<tr>
+						<td>prevBtnCls</td>
+						<td>'prev'</td>
+						<td>向前一步的class</td>
+					</tr>
+					<tr>
+						<td>nextBtnCls</td>
+						<td>'next'</td>
+						<td>向后一步的class</td>
+					</tr>
+					<tr>
+						<td>activeCls</td>
+						<td>'active'</td>
+						<td>导航选中时的class</td>
+					</tr>
+					<tr>
+						<td>effect</td>
+						<td>'none'</td>
+						<td>切换的效果:'none'表直接切换,'fade'表淡入淡出效果</td>
+					</tr>
+					<tr>
+						<td>triggerType</td>
+						<td>'mouse'</td>
+						<td>切换时的触发事件类型:"mouse"表鼠标移入时触发,"click"表示鼠标点击时触发</td>
+					</tr>
+					<tr>
+						<td>triggerCondition</td>
+						<td>*</td>
+						<td>导航项的条件</td>
+					</tr>
+					<tr>
+						<td>activeIndex</td>
+						<td>0</td>
+						<td>默认选中导航项的索引</td>
+					</tr>
+					<tr>
+						<td>auto</td>
+						<td>false</td>
+						<td>是否自动播放</td>
+					</tr>
+					<tr>
+						<td>delay</td>
+						<td>3000</td>
+						<td>自动播放时停顿的时间间隔</td>
+					</tr>
+					<tr>
+						<td>beforeEvent</td>
+						<td>
+							[无]
+						</td>
+						<td>切换前执行,返回flase时不移动;传入一个对象,包含：index事件发生前索引,count帧长度,destination目标索引,event事件对象</td>
+					</tr>
+					<tr>
+						<td>afterEvent</td>
+						<td>
+							[无]
+						</td>
+						<td>切换后执行;传入一个对象,包含：index事件发生前索引,count帧长度,destination目标索引,event事件对象</td>
+					</tr>
+				</tbody>
+			</table>
+			<h2>callback(api)参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="200">方法</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>setIndex(value)</td>
+						<td>切换标签页</td>
+					</tr>
+					<tr>
+						<td>stop()</td>
+						<td>停止自动播放</td>
+					</tr>
+					<tr>
+						<td>start()</td>
+						<td>开始自动播放</td>
+					</tr>
+					<tr>
+						<td>getIndex()</td>
+						<td>获取当前帧</td>
+					</tr>
+					<tr>
+						<td>getSize()</td>
+						<td>获取帧数</td>
 					</tr>
 				</tbody>
 			</table>
