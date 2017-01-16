@@ -10,8 +10,8 @@
 			autoOpen:false,
 			isModel:true,
 			buttons:{},
-			beforeOpen:function(){},
-			afterClose:function(){}
+			beforeOpen: function() {},
+			afterClose: function() {}
 		}
 		getApi = getApi||function(){};
 		opts = opts || {};
@@ -32,16 +32,88 @@
 		this.window=window;
 		this.body=document.body;
 		this.isIE6 = navigator.appVersion.indexOf("MSIE 6") > -1; //IE6
+		this._api={};//对外接口
+		this._api.close=this.close;
+		this._api.resize=this.resize;
 
-		//this.init();
+		//对象定义
+		this.containers=this.container[0];
+		this.children = this.params.content?$(this.params.content):this.containers.innerHTML; //内容区域
+
+		
+
+		this.init();
+		getApi(this._api);
 	}
 	Dialog.prototype = {
 		//初始化
 		init: function() {
 			var self = this;
+			//渲染dom
+			this.renderDOM();
 		},
-		
+		close: function() {
+			//Person.call(this, name, age);
+			this.resize()
+			//console.log(this)
+		},
+		//对话框形状自动调整
+		resize:function() {
+			console.log(dialog.init)
+			//Dialog.call(this);
+			// var container=r("." +this.params.prefix+"-container")[0];
+			// container.style.left=(this.window.innerWidth-container.offsetWidth)/2 + "px";
+			// container.style.top=(this.window.innerHeight -container.offsetWidth)/2 + "px";
+			// console.log(this.window.innerWidth)
+		},
+		renderDOM:function(){
+			var self = this;
+			var container=document.createElement("div");
+			container.className = this.params.prefix+"-container";
+			//关闭按钮
+			var close=document.createElement("div");
+			close.className=this.params.prefix+"-close";
+			close.innerHTML="<a href='javascript:;'>x</a>"
+			//title
+			var title=document.createElement("div");
+			title.className=this.params.prefix+"-title";
+			title.innerHTML=this.params.title;
+			//content
+			var content=document.createElement("div");
+			content.className=this.params.prefix+"-content";
+			content.innerHTML=this.children;
+			//buttons
+			var buttons=document.createElement("div");
+			buttons.className=this.params.prefix+"-buttons";
+			//遮罩层
+			var _position = this.isIE6?'absolute':'fixed';
+			var overlay=document.createElement("div");
+			overlay.className=this.params.prefix+"-overlay";
+			overlay.style.position=_position;
+			overlay.style.background=this.params.backgroundColor;
+			overlay.style.zIndex='998';
+			overlay.style.width='100%';
+			overlay.style.height='100%';
+			overlay.style.top='0px';
+			overlay.style.left='0px';
+			overlay.style.display="none";
+			container.style.position=_position;
+			container.style.zIndex='999';
 
+			//移除
+			var el=this.containers;
+			el.parentNode.removeChild(el);
+			//插入
+			container.appendChild(close);
+			container.appendChild(title);
+			container.appendChild(content);
+			container.appendChild(buttons);
+
+			el.innerHTML="";
+			el.appendChild(overlay);
+			el.appendChild(container);
+			this.body.appendChild(el);
+		},
 	}
 
 

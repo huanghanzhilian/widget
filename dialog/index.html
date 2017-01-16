@@ -97,7 +97,11 @@
 			// 		api.open();
 			// 	});
 			// });
-			var op=new dialog(".dialog1",{})
+			var op = new dialog(".dialog1", {
+				title: "警告"
+			}, function(api) {
+				api.close();
+			})
 			console.log(op)
 			
 		</script>
