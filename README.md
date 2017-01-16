@@ -64,3 +64,10 @@ new select(selector,{options});
 ```javascript
 new tabs(selector,{options});
 ```
+
+### 图片聚焦-imagezoom-原生js封装
+简介：图片居中及缩放处理
+[演示](http://www.huanghanlian.com/widget/imagezoom/)
+```javascript
+new tabs(options);
+```

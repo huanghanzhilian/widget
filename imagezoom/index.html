@@ -47,18 +47,16 @@
 			<div class="code">
 				<p>
 <pre>
-$('#zoom li').imagezoom({
+new imagezoom('#zoom li',{
 	'hoverEvent':true
-});
+})
 </pre>
 				</p>
 			</div>
 			<script type="text/javascript">
-				// var i=$('#zoom li').imagezoom({
-				// 	'hoverEvent':true
-				// });
-				var io=new imagezoom('#zoom li')
-				console.log(io)
+				new imagezoom('#zoom li',{
+					'hoverEvent':true
+				})
 			</script>
 
 
@@ -66,7 +64,7 @@ $('#zoom li').imagezoom({
 
 			<div class="call">
 				<h1>调用方法：</h1>
-				<p>new scrollup(selector,{options});</p>
+				<p>new imagezoom(options);</p>
 			</div>
 
 
@@ -75,30 +73,60 @@ $('#zoom li').imagezoom({
 				<thead>
 					<tr>
 						<th width="150">参数</th>
-						<th width="100">默认值</th>
+						<th width="80">默认值</th>
 						<th>说明</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>interval</td>
+						<td>width</td>
+						<td>[计算]</td>
+						<td>图片外层宽度</td>
+					</tr>
+					<tr>
+						<td>height</td>
+						<td>[计算]</td>
+						<td>图片外层高度</td>
+					</tr>
+					<tr>
+						<td>borderWidth</td>
+						<td>0</td>
+						<td>图片边框大小</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>'original'</td>
+						<td>惰性加载时的图片地址源</td>
+					</tr>
+					<tr>
+						<td>resizeable</td>
+						<td>true</td>
+						<td>窗口大小改变时是否重新调整图片位置</td>
+					</tr>
+					<tr>
+						<td>effect</td>
+						<td>'out'</td>
+						<td>图片居中方式处理</td>
+					</tr>
+					<tr>
+						<td>condition</td>
+						<td>'img'</td>
+						<td>默认筛选条件</td>
+					</tr>
+					<tr>
+						<td>hoverEvent</td>
 						<td>false</td>
-						<td>是否执行间隔滚动</td>
+						<td>鼠标悬浮时是否放大</td>
 					</tr>
 					<tr>
-						<td>conlistH</td>
-						<td>1</td>
-						<td>间隔子元素的高度</td>
+						<td>hoverRatio</td>
+						<td>1.2</td>
+						<td>鼠标悬浮时放大比例</td>
 					</tr>
 					<tr>
-						<td>intimes</td>
-						<td>2000</td>
-						<td>间隔滚动时间</td>
-					</tr>
-					<tr>
-						<td>time</td>
-						<td>40</td>
-						<td>设置滚动速度</td>
+						<td>duration</td>
+						<td>30</td>
+						<td>鼠标悬浮时放大动画时长</td>
 					</tr>
 				</tbody>
 			</table>

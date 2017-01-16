@@ -11,7 +11,7 @@
             borderWidth: 0,     //图片边框宽度
             hoverEvent:false,   //鼠标悬浮时是否放大
             hoverRatio:1.2,     //鼠标悬浮时放大比例
-            duration:300        //鼠标悬浮时放大动画时长
+            duration:30         //鼠标悬浮时放大动画时长
 		}
 		opts = opts || {};
 		for (var w in defaults) {
@@ -33,17 +33,6 @@
 		this._hoverRatio = this.options.hoverRatio;//鼠标悬浮时放大比例
 		this._outer_width = this.options.width||this.container[0].offsetWidth;//图片外层宽度
 		this._outer_height = this.options.height||this.container[0].offsetHeight;//图片外层高度
-		// this.content=this.container.find("." +this.params.contentCls);       //内容列表区域
-		// this.panels=this.content[0].children;                                //内容列表的子元素
-		// this.triggers = this.container.find("." + this.params.navCls + ">" + this.params.triggerCondition);  //获取nav下面的子元素
-		// //非api
-		// this._api = {};
-  //       this._size = this.panels.length;
-  //       this._index = this.params.activeIndex;
-  //       this._hander = null;
-  //       this.params.triggerType += this.params.triggerType === "mouse" ? "enter" : "";  //使用mouseenter防止事件冒泡
-  //       this.prev=this.container.find("." +this.params.prevBtnCls)[0];
-  //       this.next=this.container.find("." +this.params.nextBtnCls)[0];
 		this.init();
 	}
 	Imagezoom.prototype = {
@@ -51,6 +40,9 @@
 		init: function() {
 			var self = this;
 			this.imgready();
+			if(this.options.hoverEvent){
+				this.event();
+			}
 		},
 		//初始化图片
 		imgready:function(){
@@ -98,21 +90,92 @@
 		zoom:function(ratio, isAnimate) { //ratio：放大比例，isAnamate：是否动画（默认不动画）
 			var self = this;
 			var obj = {
-				'width': Math.ceil(self._width * self._ratio) - self.options.borderWidth * 2,
-				'height': Math.ceil(self._height * self._ratio) - self.options.borderWidth * 2,
-				'margin-left': Math.ceil((self._outer_width - self._width * self._ratio) / 2),
-				'margin-top': Math.ceil((self._outer_height - self._height * self._ratio) / 2)
+				'width': Math.ceil(self._width * ratio) - self.options.borderWidth * 2,
+				'height': Math.ceil(self._height * ratio) - self.options.borderWidth * 2,
+				'margin-left': Math.ceil((self._outer_width - self._width * ratio) / 2),
+				'margin-top': Math.ceil((self._outer_height - self._height * ratio) / 2)
 			};
-			
 			if (isAnimate) {
-				//this.img.stop().animate(obj, _duration);
+				starmove(this.img, {width:obj.width,height:obj.height,marginLeft:obj['margin-left'],marginTop:obj['margin-top']},this._duration);
 			} else {
-				console.log( obj['margin-left'])
 				this.img.style.width=obj.width+'px';
 				this.img.style.height=obj.height+'px';
 				this.img.style.marginLeft=obj['margin-left']+'px';
 				this.img.style.marginTop=obj['margin-top']+'px';
 			}
+		},
+		//事件绑定
+		event: function() {
+			var self = this;
+			this.container[0].addEventListener("mouseenter", function() {
+				self.zoom(self._ratio*self._hoverRatio,true);
+			}, false);
+			this.container[0].addEventListener("mouseleave", function() {
+				self.zoom(self._ratio,true);
+			}, false);
+			if(self.options.resizeable){
+				window.onresize = function(){
+					self._outer_width = self.options.width||self.container[0].offsetWidth;
+					self._outer_height = self.options.height||self.container[0].offsetHeight;
+		            self.getRatio();
+				}
+			}
+		},
+	}
+
+	function starmove(obj, json, time, fn) {
+		var fn, times;
+		if (arguments[2] == undefined) {
+			times = 30;
+		} else if (typeof time == "function") {
+			times = 30;
+			fn = time;
+		} else if (typeof time == "number") {
+			times = time;
+		}
+
+		if (arguments[3]) {
+			fn = fn;
+		}
+		clearInterval(obj.zzz);
+		obj.zzz = setInterval(function() {
+			var flag = true;
+			for (var attr in json) {
+				var icur = 0;
+				if (attr == 'opacity') {
+					icur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+				} else {
+					icur = parseInt(getStyle(obj, attr));
+				}
+
+				var speed = (json[attr] - icur) / 3;
+				speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+				if (icur != json[attr]) {
+					flag = false;
+				}
+				if (attr == 'opacity') {
+					icur += speed;
+					obj.style.filter = 'alpha(opacity:' + icur + ')';
+					obj.style.opacity = icur / 100;
+				} else {
+					obj.style[attr] = icur + speed + 'px';
+				}
+
+			}
+			if (flag) {
+				clearInterval(obj.zzz);
+				if (fn) {
+					fn();
+				}
+			}
+		}, times)
+	}
+
+	function getStyle(obj, attr) {
+		if (obj.currentStyle) {
+			return obj.currentStyle[attr];
+		} else {
+			return getComputedStyle(obj, false)[attr];
 		}
 	}
 
