@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片聚焦-imagezoom-原生js封装</title>
+	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
+	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
+	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
+	<link rel="stylesheet" type="text/css" href="../public/style/common.css">
+	<style type="text/css">
+		.panel{
+			margin-bottom: 20px;
+		}
+		.zoom{
+			overflow: hidden;
+		}
+		.zoom li{
+			float: left;
+			width:300px;
+			height: 300px;
+			border:1px solid #ebebeb;
+			margin-left: 20px;
+			overflow: hidden;
+		}
+	</style>
+	<script type="text/javascript" src="../code/imagezoom.js"></script>
+</head>
+<body>
+	<div class="header">
+        <a href="https://github.com/huanghanzhilian/widget" target="_blank">项目地址</a>
+        <a href="/widget/">返回首页</a>
+    </div>
+    <div class="main">
+
+		<div class="panel">
+				<div class="zoom" id="zoom">
+					<ul>
+						<li>
+							<img src="image/pic1.jpg">
+						</li>
+						<li>
+							<img src="image/pic2.jpg">
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="code">
+				<p>
+<pre>
+$('#zoom li').imagezoom({
+	'hoverEvent':true
+});
+</pre>
+				</p>
+			</div>
+			<script type="text/javascript">
+				// var i=$('#zoom li').imagezoom({
+				// 	'hoverEvent':true
+				// });
+				var io=new imagezoom('#zoom li')
+				console.log(io)
+			</script>
+
+
+		<div class="example">
+
+			<div class="call">
+				<h1>调用方法：</h1>
+				<p>new scrollup(selector,{options});</p>
+			</div>
+
+
+			<h2>options参数</h2>
+			<table>
+				<thead>
+					<tr>
+						<th width="150">参数</th>
+						<th width="100">默认值</th>
+						<th>说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>interval</td>
+						<td>false</td>
+						<td>是否执行间隔滚动</td>
+					</tr>
+					<tr>
+						<td>conlistH</td>
+						<td>1</td>
+						<td>间隔子元素的高度</td>
+					</tr>
+					<tr>
+						<td>intimes</td>
+						<td>2000</td>
+						<td>间隔滚动时间</td>
+					</tr>
+					<tr>
+						<td>time</td>
+						<td>40</td>
+						<td>设置滚动速度</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+
+
+    </div>
+</body>
+</html>
