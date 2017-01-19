@@ -13,8 +13,8 @@
 			beforeOpen: function() {},
 			afterClose: function() {}
 		}
-		getApi = getApi||function(){};
 		opts = opts || {};
+		getApi = getApi||function(){};
 		for (var w in defaults) {
 			if ("undefined" == typeof opts[w]) {
 				opts[w] = defaults[w];
@@ -33,17 +33,14 @@
 		this.body=document.body;
 		this.isIE6 = navigator.appVersion.indexOf("MSIE 6") > -1; //IE6
 		this._api={};//对外接口
-		this._api.close=this.close;
-		this._api.resize=this.resize;
+		this._isOpen = false; //是否是打开状态
 
 		//对象定义
 		this.containers=this.container[0];
 		this.children = this.params.content?$(this.params.content):this.containers.innerHTML; //内容区域
 
-		
-
 		this.init();
-		getApi(this._api);
+		getApi(this);
 	}
 	Dialog.prototype = {
 		//初始化
@@ -51,21 +48,47 @@
 			var self = this;
 			//渲染dom
 			this.renderDOM();
+			//this.open();
+			//事件绑定
+			var close=r("." +this.params.prefix+"-close")[0];
+			var overlay=r("." +this.params.prefix+"-overlay")[0];
+			close.onclick=function(){
+				self.close();
+			}
+			overlay.onclick=function(){
+				self.close();
+			}
+			window.onresize = function() {
+				self.resize();
+			}
 		},
-		close: function() {
-			//Person.call(this, name, age);
-			this.resize()
-			//console.log(this)
+		//对话框关闭
+		close:function() {
+			var self = this;
+			var overlay=r("." +this.params.prefix+"-overlay")[0];
+			var container=r("." +this.params.prefix+"-container")[0];
+			overlay.style.display="none";
+			container.style.display="none";
+			this._isOpen = false;
+		},
+		//对话框开启
+		open:function(){
+			var self = this;
+			var overlay=r("." +this.params.prefix+"-overlay")[0];
+			var container=r("." +this.params.prefix+"-container")[0];
+			overlay.style.opacity=self.params.opacity;
+			overlay.style.display="block";
+			container.style.display="block";
+			this.resize();
+			this._isOpen = true;
 		},
 		//对话框形状自动调整
 		resize:function() {
-			console.log(dialog.init)
-			//Dialog.call(this);
-			// var container=r("." +this.params.prefix+"-container")[0];
-			// container.style.left=(this.window.innerWidth-container.offsetWidth)/2 + "px";
-			// container.style.top=(this.window.innerHeight -container.offsetWidth)/2 + "px";
-			// console.log(this.window.innerWidth)
+			var container=r("." +this.params.prefix+"-container")[0];
+			container.style.left=(this.window.innerWidth-container.offsetWidth)/2 + "px";
+			container.style.top=(this.window.innerHeight -container.offsetHeight)/2 + "px";
 		},
+		//渲染dom
 		renderDOM:function(){
 			var self = this;
 			var container=document.createElement("div");
@@ -85,6 +108,19 @@
 			//buttons
 			var buttons=document.createElement("div");
 			buttons.className=this.params.prefix+"-buttons";
+			var i = 1;
+			for(var name in this.params.buttons){
+				(function(name){
+					var chser=document.createElement("button");
+					chser.className="button-"+(i++);
+					chser.setAttribute("type","button");
+					chser.innerHTML=name;
+					buttons.appendChild(chser);
+					chser.onclick=function(){
+						self.params.buttons[name](self);
+					}
+				})(name);
+			}
 			//遮罩层
 			var _position = this.isIE6?'absolute':'fixed';
 			var overlay=document.createElement("div");
@@ -114,7 +150,24 @@
 			el.appendChild(container);
 			this.body.appendChild(el);
 		},
-	}
+		//设置对话框内容
+		setContent:function(html) {
+			var self = this;
+			var content=r("." +this.params.prefix+"-content")[0];
+			if(typeof html!="undefined"){
+				content.innerHTML=html;
+			}
+		},
+		//获取按键对象
+		getButtons:function() {
+			var self = this;
+			var buttons=r("." +this.params.prefix+"-buttons")[0];
+			return buttons;
+		},
+		isOpen:function(){
+			return this._isOpen;
+		}
+}
 
 
 

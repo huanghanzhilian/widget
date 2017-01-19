@@ -69,5 +69,12 @@ new tabs(selector,{options});
 简介：图片居中及缩放处理
 [演示](http://www.huanghanlian.com/widget/imagezoom/)
 ```javascript
-new tabs(options);
+new imagezoom(selector,{options});
+```
+
+### 弹出框-dialog-原生js封装
+简介：个性弹出层，自定义弹出位置，巧妙的定位方式
+[演示](http://www.huanghanlian.com/widget/dialog/)
+```javascript
+new dialog(selector,{options});
 ```
