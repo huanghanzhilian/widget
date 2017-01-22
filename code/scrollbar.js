@@ -1,5 +1,12 @@
 (function() {
 	var Scrollbar = function(el, opts, getApi) {
+		if(typeof opts == 'function'){ //重载
+            getApi = opts;
+            opts = {};
+        }else{
+            opts = opts || {};
+            getApi = getApi||function(){};
+        }
 		var self = this;
 		var defaults = {
 			contentCls: "content", //内容区的class
@@ -11,8 +18,6 @@
 			inEndEffect: false, //滚轴到底时事件是否冒泡给页面
 			slide: 10 //默认移动的距离
 		}
-		opts = opts || {};
-		getApi = getApi || function() {};
 		for (var w in defaults) {
 			if ("undefined" == typeof opts[w]) {
 				opts[w] = defaults[w];
@@ -76,7 +81,6 @@
 			e = e||window.event;
 			var delta = -e.wheelDelta/120||e.detail/3;
 			var move = this.options.direction=="y"?-this.$content.offsetTop+delta*this.options.steps:-this.$content.offsetLeft+delta*this.options.steps;
-			
 			if (move > this._room) {
 
 				move = this._room;
@@ -95,6 +99,52 @@
 				e.preventDefault ? e.preventDefault() : e.returnValue = false;
 			}
 			this.slide(move);
+		},
+		touchStart:function(e) {
+			var self = this;
+			e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+			e.preventDefault ? e.preventDefault() : e.returnValue = false;
+			self._start = {
+				pageX: e.changedTouches[0].pageX,
+				pageY: e.changedTouches[0].pageY
+			};
+			if (self.options.direction == "y") {
+				self._content_position = -self.$content.offsetTop || 0;
+			} else {
+				self._content_position = -self.$content.offsetLeft || 0;
+			}
+		},
+
+		touchMove:function(e) {
+			var self = this;
+			e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+			e.preventDefault ? e.preventDefault() : e.returnValue = false;
+			var current = {
+				pageX: e.changedTouches[0].pageX,
+				pageY: e.changedTouches[0].pageY
+			};
+			var move = self.options.direction == "x" ? self._start.pageX - current.pageX : self._start.pageY - current.pageY; //移动距离触发点的距离
+			if (self.options.direction == "x" && Math.abs(current.pageY - self._start.pageY) < Math.abs(move) || self.options.direction == "y") { //chrome移动版下，默认事件与自定义事件的冲突
+				move += self._content_position;
+				e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+				e.preventDefault ? e.preventDefault() : e.returnValue = false;
+				if (move < 0) {
+					move = 0;
+				} else if (move > self._room) {
+					move = self._room;
+				}
+				if (self._distance > 0) {
+					var off=this.options.direction == "y" ? 'top' : 'left';
+					this.$thumb.style[off]=move*this.ratio+"px";
+					this.$content.style[off]=-move+"px";
+				}
+			}
+		},
+
+		touchEnd:function(e) {
+			e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+			e.preventDefault ? e.preventDefault() : e.returnValue = false;
+			//isTouch = false;
 		},
 		//重置滚动条参数
 		resize:function(){
@@ -138,15 +188,47 @@
 				this.$content.style[off]=-move+"px";
 			}
 		},
+		getRatio:function(){
+			var self = this;
+			return this.ratio = this._distance/this._room;
+		},
 		/*事件*/
 		event:function(){
 			var self = this;
-			self.$track.addEventListener('mouseover', function() {
-				
+			self.$track.addEventListener('mousedown', function(e) {
+				self.isMouseDown=true;
+				//self.$track.offsetParent=self.document
+				self._track_offset = self.options.direction == "y" ? offset(self.$track).top : offset(self.$track).left;
+				self._cursor_position = self.options.direction=="y"?e.pageY-self._track_offset-self.$thumb.offsetTop:e.pageX-self._track_offset-self.$thumb.offsetLeft;
+				setSelectable(self.body,false);
 			}, false);
-			// this.document.addEventListener('mousewheel', function() {
-			// 	console.log(1)
-			// }, false);
+
+			self.$track.addEventListener('mouseup', function(e) {
+				if (self.isMouseDown) {
+					var move = self.options.direction == "y" ? e.pageY - self._track_offset : e.pageX - self._track_offset;
+					if (self._cursor_position > 0 && self._cursor_position < self._thumb_length) {
+						move -= self._cursor_position;
+					}
+					self.slide(move / self.ratio);
+				}
+			}, false);
+
+			this.document.addEventListener('mousemove', function(e) {
+				if(self.isMouseDown){
+					var move = self.options.direction == "y" ? e.pageY - self._track_offset : e.pageX - self._track_offset;
+					if (self._cursor_position > 0 && self._cursor_position < self._thumb_length) {
+						move -= self._cursor_position;
+					}
+					self.slide(move/self.ratio);
+				}
+			}, false);
+
+			this.document.addEventListener('mouseup', function(e) {
+				self.isMouseDown=false;
+				self._cursor_position=0;
+				setSelectable(self.body,true);
+			}, false);
+
 			if(document.addEventListener){
 				this.container[0].addEventListener('DOMMouseScroll',function(e){
 					e = e||window.event;
@@ -157,7 +239,17 @@
 				e = e || window.event;
 				self.scroll(e);
 			}
-			this.scroll;
+			if (this.container[0].addEventListener && this.options.touchable) {
+				this.container[0].addEventListener("touchstart", function(e){
+					self.touchStart(e);
+				});
+				this.container[0].addEventListener("touchmove", function(e){
+					self.touchMove(e);
+				});
+				this.container[0].addEventListener("touchend", function(e){
+					self.touchEnd(e);
+				});
+			}
 		},
 
 	}
@@ -169,6 +261,46 @@
 			return obj.currentStyle[attr];
 		} else {
 			return getComputedStyle(obj, false)[attr];
+		}
+	}
+
+	function offset(curEle) {
+		var totalLeft = null,
+			totalTop = null,
+			par = curEle.offsetParent;
+		//首先把自己本身的进行累加
+		totalLeft += curEle.offsetLeft;
+		totalTop += curEle.offsetTop;
+
+		//只要没有找到body，我们就把父级参照物的边框和偏移量累加
+		while (par) {
+			if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
+				//不是标准的ie8浏览器，才进行边框累加
+				//累加父级参照物边框
+				totalLeft += par.clientLeft;
+				totalTop += par.clientTop;
+			}
+			//累加父级参照物本身的偏移
+			totalLeft += par.offsetLeft;
+			totalTop += par.offsetTop;
+			par = par.offsetParent;
+		}
+		return {
+			left: totalLeft,
+			top: totalTop
+		};
+	}
+
+	function setSelectable(obj, enabled) {
+		//console.log(obj)
+		if (enabled) {
+			obj.removeAttribute("unselectable");
+			obj.removeAttribute("onselectstart");
+			obj.style.webkitUserSelect="";
+		} else {
+			obj.setAttribute("unselectable", "on");
+			obj.setAttribute("onselectstart", "return false;");
+			obj.style.webkitUserSelect="none";
 		}
 	}
 

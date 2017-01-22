@@ -27,6 +27,13 @@ new bannerha(selector,{options});
 new tabpanel(selector,{options});
 ```
 
+### 滚动条-原生js封装
+简介：模拟滚动条，支持手势操作，支持移动端+PC
+[演示](http://www.huanghanlian.com/widget/scrollbar/)
+```javascript
+new scrollbar("selector",options,callback(api));
+```
+
 
 ### 无缝向上滚动-原生js封装
 简介：无缝滚动、间隔滚动、响应式、参数可调控等等

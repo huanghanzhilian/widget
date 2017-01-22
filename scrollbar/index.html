@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>滚动条--scrollbar-原生js封装</title>
+	<title>滚动条-scrollbar-原生js封装</title>
 	<link rel="shortcut icon" href="../public/image/favicon.ico" type="images/x-icon"/>
 	<link rel="icon" href="../public/image/favicon.png" type="images/png"/>
 	<link rel="stylesheet" type="text/css" href="../public/style/cssreset-min.css">
@@ -39,6 +39,7 @@
 	.s1 .track div {
 		width: 4px;
 		background: #999;
+		border-radius: 2px;
 	}
 	.s2 {
 		position: relative;
@@ -69,6 +70,7 @@
 	.s2 .track div {
 		height: 4px;
 		background: #999;
+		border-radius: 2px;
 	}
 	</style>
 	<script type="text/javascript" src="../code/scrollbar.js"></script>
@@ -79,7 +81,7 @@
         <a href="/widget/">返回首页</a>
     </div>
     <div class="main">
-		<div class="scrollbar s1">
+		<div class="scrollbar s1 sllb1">
 			<div class="box">
 				<ul class="content">
 					<li>这里是内容1</li>
@@ -102,14 +104,15 @@
 			<div class="track"><div></div></div>
 		</div>
 		<div class="code">
-			<p>$(".s1").scrollbar();</p>
+			<p>
+				执行默认参数，支持移动端触摸事件，pc拖拽滚动条，滚动区域鼠标可滚动。不传参数默认纵向滚动条。
+			</p>
+			<p>new scrollbar(".sllb1");</p>
 		</div>
 		<script type="text/javascript">
-			//document.body.addEventListener('DOMMouseScroll',function(){console.log(1)},false);
-			var co=new scrollbar(".s1");
-			console.log(co)
+			new scrollbar(".sllb1");
 		</script>
-		<div class="scrollbar s2">
+		<div class="scrollbar s2 sllb2">
 			<div class="box">
 				<ul class="content">
 					<li>这里是内容1</li>
@@ -132,16 +135,64 @@
 			<div class="track"><div></div></div>
 		</div>
 		<div class="code">
-			<p>$(".s2").scrollbar({direction:'x'});</p>
+			<p>
+				{direction:'x'},滚动条的方向,"x"为横向,执行默认参数，支持移动端触摸事件，pc拖拽滚动条，滚动区域鼠标可滚动。不传参数默认纵向滚动条。
+			</p>
+			<p>new scrollbar(".sllb2",{direction:'x'});</p>
 		</div>
 		<script type="text/javascript">
-			var co1=new scrollbar(".s2",{direction:'x'});
-			console.log(co1)
+			new scrollbar(".sllb2",{direction:'x'});
 		</script>
+
+		<div class="scrollbar s2 sllb3">
+			<div class="box">
+				<ul class="content">
+					<li>这里是内容1</li>
+					<li>这里是内容2</li>
+					<li>这里是内容3</li>
+					<li>这里是内容4</li>
+					<li>这里是内容5</li>
+					<li>这里是内容6</li>
+					<li>这里是内容7</li>
+					<li>这里是内容8</li>
+					<li>这里是内容9</li>
+					<li>这里是内容10</li>
+					<li>这里是内容11</li>
+					<li>这里是内容12</li>
+					<li>这里是内容13</li>
+					<li>这里是内容14</li>
+					<li>这里是内容15</li>
+				</ul>
+			</div>
+			<div class="track"><div></div></div>
+		</div>
+		<h1>回调函数方法：</h1>
+		<div class="code">
+			<p>
+				设置滚动到指定位置,获得滚轴和内容区的转换比
+			</p>
+			<p>
+<pre>
+new scrollbar(".sllb3",{direction:'x'},function(api){
+	api.slide(1210);
+	var getRa= api.getRatio();
+	//console.log(getRa)//0.13280212483399734
+});
+</pre>
+			</p>
+		</div>
+		<script type="text/javascript">
+			new scrollbar(".sllb3",{direction:'x'},function(api){
+				api.slide(1210);
+				var getRa= api.getRatio();
+				//console.log(getRa)//0.13280212483399734
+			});
+		</script>
+
 		<div class="example">
 			<div class="call">
 				<h1>调用方法：</h1>
-				<p>$(selector).scrollbar(options,callback(api));</p>
+				<p>new scrollbar("selector",options,callback(api));</p>
 			</div>
 			<h2>options参数</h2>
 			<table>
