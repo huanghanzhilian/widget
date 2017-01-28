@@ -1,23 +1,23 @@
 (function() {
 	var Range = function(el, opts, getApi) {
-		if(typeof opts == 'function'){ //重载
-            getApi = opts;
-            opts = {};
-        }else{
-            opts = opts || {};
-            getApi = getApi||function(){};
-        }
+		if (typeof opts == 'function') { //重载
+			getApi = opts;
+			opts = {};
+		} else {
+			opts = opts || {};
+			getApi = getApi || function() {};
+		}
 		var self = this;
 		var defaults = {
-			valueCls: 'value',		//当前有效值范围显示class
-			handleCls: 'handle',	//拖动滑块class
-			min: 0,					//变化范围的最小值
-			max: 100,				//变化范围的最大值
-			value: 1,				//默认显示的值
-			steps: 1,				//每次移动的步长
-			type:'outer',           //outer进度计算以进度条宽为准，inner进度计算需扣除条滑块宽
-			onSlide: function(){},	//当前值变化时触发的事件，传入对象:event为事件,value为当前值,obj为当前对象
-			onChange: function(){}    //当前值变化后触发的事件，传入对象:event为事件,value为当前值,obj为当前对象
+			valueCls: 'value', //当前有效值范围显示class
+			handleCls: 'handle', //拖动滑块class
+			min: 0, //变化范围的最小值
+			max: 100, //变化范围的最大值
+			value: 1, //默认显示的值
+			steps: 1, //每次移动的步长
+			type: 'outer', //outer进度计算以进度条宽为准，inner进度计算需扣除条滑块宽
+			onSlide: function() {}, //当前值变化时触发的事件，传入对象:event为事件,value为当前值,obj为当前对象
+			onChange: function() {} //当前值变化后触发的事件，传入对象:event为事件,value为当前值,obj为当前对象
 		}
 		for (var w in defaults) {
 			if ("undefined" == typeof opts[w]) {
@@ -68,80 +68,166 @@
 			this.event();
 		},
 		//移动到指定值
-		setValue:function(value){
+		setValue: function(value) {
 			var self = this;
-			this._value = value||this._value;
-			this._value = Math.min(this._value,this.params.max);
-			this._value = Math.max(this._value,this.params.min);
-			this.$value.style.width=(this._value-this.params.min)*this._length+"px";
-			this.$handle.style.left=(this._value-this.params.min)*this._length+"px";
-			this.params.onSlide({event:{},value:this._value,obj:this.$this});
+			this._value = value || this._value;
+			this._value = Math.min(this._value, this.params.max);
+			this._value = Math.max(this._value, this.params.min);
+			this.$value.style.width = (this._value - this.params.min) * this._length + "px";
+			this.$handle.style.left = (this._value - this.params.min) * this._length + "px";
+			this.params.onSlide({
+				event: {},
+				value: this._value,
+				obj: this.$this
+			});
+
 		},
 		//重置插件尺寸
-		resize:function(){
-			_width = options.type=='outer'?$this.width():$this.width()-_handle_width;
-			_length = _width/(options.max - options.min);
-			_api.setValue();
+		resize: function() {
+			var self = this;
+			self._width = self.params.type == 'outer' ? self.$this.offsetWidth : self.$this.offsetWidth - self._handle_width;
+			self._length = self._width / (self.params.max - self.params.min);
+			self.setValue();
 		},
 		//渲染dom
-		renderDOM:function(){
+		renderDOM: function() {
 			var self = this;
-			this.$value=document.createElement("div");
+			this.$value = document.createElement("div");
 			this.$value.className = this.params.valueCls;
-			this.$handle=document.createElement("div");
+			this.$handle = document.createElement("div");
 			this.$handle.className = this.params.handleCls;
 			this.$this.appendChild(this.$value);
 			this.$this.appendChild(this.$handle);
 
-			this._handle_width=this.$handle.offsetWidth;
-			this._width = this.params.type=='outer'?this.$this.offsetWidth:this.$this.offsetWidth-this._handle_width;
-			this._length = this._width/(this.params.max - this.params.min); 	//单元宽度
+			this._handle_width = this.$handle.offsetWidth;
+			this._width = this.params.type == 'outer' ? this.$this.offsetWidth : this.$this.offsetWidth - this._handle_width;
+			this._length = this._width / (this.params.max - this.params.min); //单元宽度
 
-			this._cursor_position = offset(this.$this).left;			//鼠标位置
+			this._cursor_position = offset(this.$this).left; //鼠标位置
 			this.isMouseDown = false;
 
 			//样式初始化
-			this.$this.style.position="relative";
-			this.$value.style.height="100%";
-			this.$handle.style.position="absolute";
+			this.$this.style.position = "relative";
+			this.$value.style.height = "100%";
+			this.$handle.style.position = "absolute";
 		},
-		event:function(){
+		touchStart:function(e) {
+			var self = this;
+			self.isMouseDown = true;
+			self._offset = offset(self.$this).left;
+			self._cursor_position = e.changedTouches[0].pageX - self._offset - self.$handle.offsetLeft;
+		},
+		touchMove:function(e) {
+			var self = this;
+			stopBubble(e);
+			stopDefault(e);
+			if (self.isMouseDown) {
+				var move = e.changedTouches[0].pageX - self._offset;
+				if (self._cursor_position > 0 && self._cursor_position < self._handle_width) { //鼠标在手柄中位置，对值的修正
+					move -= self._cursor_position;
+				}
+				move = Math.max(0, move);
+				move = Math.min(move, self._width);
+				self.$value.style.width = move + "px";
+				self.$handle.style.left = move + "px";
+				self._value = Math.round(move / (self._length * self.params.steps)) * self.params.steps + self.params.min;
+				self.params.onSlide({
+					event: e,
+					value: self._value,
+					obj: self.$this
+				});
+			}
+		},
+		touchEnd:function(e) {
+			var self = this;
+			if (self.isMouseDown) {
+				self.isMouseDown = false;
+				setSelectable(self.$body, true);
+				self.setValue();
+				self.params.onChange({
+					event: e,
+					value: self._value,
+					obj: self.$this
+				});
+			}
+		},
+		event: function() {
 			var self = this;
 			this.$this.addEventListener('mousedown', function(e) {
 				self.isMouseDown = true;
 				self._offset = offset(self.$this).left;
-				self._cursor_position = e.pageX-self._offset-self.$handle.offsetLeft;
-				setSelectable(self.$body,false);
+				self._cursor_position = e.pageX - self._offset - self.$handle.offsetLeft;
+				setSelectable(self.$body, false);
 			}, false);
 			this.$this.addEventListener('mouseup', function(e) {
-				if(self.isMouseDown){
+				if (self.isMouseDown) {
 					self.isMouseDown = false;
-					setSelectable(self.$body,true);
+					setSelectable(self.$body, true);
 					var move = e.pageX - self._offset;
-					if(self._cursor_position>0&&self._cursor_position<self._handle_width){   //鼠标在手柄中位置，对值的修正
-						move -=self._cursor_position;
+					if (self._cursor_position > 0 && self._cursor_position < self._handle_width) { //鼠标在手柄中位置，对值的修正
+						move -= self._cursor_position;
 					}
-					self._value = Math.round(move/(self._length*self.params.steps))*self.params.steps+self.params.min;
+					self._value = Math.round(move / (self._length * self.params.steps)) * self.params.steps + self.params.min;
+					// console.log(self.params.steps)
 					self.setValue();
-					self.params.onSlide({event:e,value:self._value,obj:self.$this});
-					self.params.onChange({event:e,value:self._value,obj:self.$this});
+					self.params.onSlide({
+						event: e,
+						value: self._value,
+						obj: self.$this
+					});
+
+					self.params.onChange({
+						event: e,
+						value: self._value,
+						obj: self.$this
+					});
 				}
 			}, false);
 			this.$document.addEventListener('mousemove', function(e) {
-				if(self.isMouseDown){
+				if (self.isMouseDown) {
 					var move = e.pageX - self._offset;
-					if(self._cursor_position>0&&self._cursor_position<self._handle_width){   //鼠标在手柄中位置，对值的修正
-						move -=self._cursor_position;
+					if (self._cursor_position > 0 && self._cursor_position < self._handle_width) { //鼠标在手柄中位置，对值的修正
+						move -= self._cursor_position;
 					}
-					move = Math.max(0,move);
-					move = Math.min(move,self._width);
-					self.$value.style.width=move+"px";
-					self.$handle.style.left=move+"px";
+					move = Math.max(0, move);
+					move = Math.min(move, self._width);
+					self.$value.style.width = move + "px";
+					self.$handle.style.left = move + "px";
 
-					self._value = Math.round(move/(_length*options.steps))*options.steps+options.min;
-					// options.onSlide({event:e,value:_value,obj:$this});
+					self._value = Math.round(move / (self._length * self.params.steps)) * self.params.steps + self.params.min;
+					self.params.onSlide({
+						event: e,
+						value: self._value,
+						obj: self.$this
+					});
 				}
 			}, false);
+			this.$document.addEventListener('mouseup', function(e) {
+				if (self.isMouseDown) {
+					self.isMouseDown = false;
+					setSelectable(self.$body, true);
+					self.setValue();
+					self.params.onChange({
+						event: e,
+						value: self._value,
+						obj: self.$this
+					});
+				}
+			}, false);
+			window.onresize = function() {
+				self.resize();
+			}
+			if (this.$this.addEventListener) {
+				this.$this.addEventListener("touchstart", function(e){
+					self.touchStart(e);
+				});
+				this.$this.addEventListener("touchmove", function(e){
+					self.touchMove(e);
+				});
+				this.$this.addEventListener("touchend", function(e){
+					self.touchEnd(e);
+				});
+			}
 		}
 
 	}
@@ -184,34 +270,34 @@
 	}
 
 	//工具函数
-	function stopBubble(e){
+	function stopBubble(e) {
 		if (e && e.stopPropagation) {
 			e.stopPropagation();
-		}else if (window.event) {
+		} else if (window.event) {
 			window.event.cancelBubble = true;
 		}
 	}
+
 	function stopDefault(e) {
-		if ( e && e.preventDefault ){
+		if (e && e.preventDefault) {
 			e.preventDefault();
-		}else{
-			 window.event.returnValue = false;
+		} else {
+			window.event.returnValue = false;
 		}
 		return false;
 	}
+
 	function setSelectable(obj, enabled) {
 		if (enabled) {
 			obj.removeAttribute("unselectable");
 			obj.removeAttribute("onselectstart");
-			obj.style.webkitUserSelect="";
+			obj.style.webkitUserSelect = "";
 		} else {
 			obj.setAttribute("unselectable", "on");
 			obj.setAttribute("onselectstart", "return false;");
-			obj.style.webkitUserSelect="none";
+			obj.style.webkitUserSelect = "none";
 		}
 	}
-
-
 
 
 

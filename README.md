@@ -12,6 +12,20 @@
 
 ---
 
+### 滑动条-原生js封装
+简介：进度及范围控制，支持手势操作，支持移动端+PC
+[演示](http://www.huanghanlian.com/widget/range/)
+```javascript
+new range("selector",options,callback(api));
+```
+
+### 滚动条-原生js封装
+简介：模拟滚动条，支持手势操作，支持移动端+PC
+[演示](http://www.huanghanlian.com/widget/scrollbar/)
+```javascript
+new scrollbar("selector",options,callback(api));
+```
+
 ### 无缝轮播图-原生js封装
 简介：无缝滚动、响应式、参数可调控等等
 [演示](http://www.huanghanlian.com/widget/bannerha/)
@@ -25,13 +39,6 @@ new bannerha(selector,{options});
 [演示](http://www.huanghanlian.com/widget/tabpanel/)
 ```javascript
 new tabpanel(selector,{options});
-```
-
-### 滚动条-原生js封装
-简介：模拟滚动条，支持手势操作，支持移动端+PC
-[演示](http://www.huanghanlian.com/widget/scrollbar/)
-```javascript
-new scrollbar("selector",options,callback(api));
 ```
 
 

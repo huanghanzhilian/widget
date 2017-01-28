@@ -47,33 +47,31 @@
 			<div class="code">
 				<p>移动结束显示</p>
 				<p>
-<pre>$('#range1').range({
-	min:0,
-	max:50,
+<pre>
+var input1 = document.getElementById("input1");
+new range("#range1",{
+	min: 0,
+	max: 50,
 	value:40,
-	steps:5,
+	steps:1,
 	onChange:function(status){
-		$('#input1').val(status.value);
+		input1.value=status.value;
 	}
-});</pre>
+});
+</pre>
 				</p>
 			</div>
 			<script type="text/javascript">
-				// $('#range1').range({
-				// 	min:0,
-				// 	max:50,
-				// 	value:40,
-				// 	steps:5,
-				// 	onChange:function(status){
-				// 		$('#input1').val(status.value);
-				// 	}
-				// });
-				var g=new range("#range1",{
+				var input1 = document.getElementById("input1");
+				new range("#range1",{
 					min: 0,
 					max: 50,
 					value:40,
+					steps:1,
+					onChange:function(status){
+						input1.value=status.value;
+					}
 				});
-				console.log(g)
 			</script>
 			<div class="panel">
 				<div class="range" id="range2"></div>
@@ -83,26 +81,60 @@
 				<p>移动过程中显示</p>
 				<p>
 <pre>
-$('#range2').range({
-	min:10,
-	max:62,
+var input2=document.getElementById("input2");
+new range("#range2",{
+	min: 10,
+	max: 62,
 	value:40,
-	steps:5,
 	onSlide:function(status){
-		$('#input2').val(status.value);
+		input2.value=status.value;
 	}
 });
 </pre>
 				</p>
 			</div>
 			<script type="text/javascript">
-				var g1=new range("#range2",{
+				var input2=document.getElementById("input2");
+				new range("#range2",{
 					min: 10,
 					max: 62,
 					value:40,
+					onSlide:function(status){
+						input2.value=status.value;
+					}
 				});
-				console.log(g1)
 			</script>
+
+			<div class="panel">
+				<div class="range" id="range3"></div>
+				<p><input id="input3" type="text" readonly/></p>
+			</div>
+			<div class="code">
+				<p>移动过程中显示</p>
+				<p>
+<pre>
+var input3=document.getElementById("input3");
+new range("#range3",{
+	onSlide:function(status){
+		input3.value=status.value;
+	}
+},function(api){
+	api.setValue(20)
+});
+</pre>
+				</p>
+			</div>
+			<script type="text/javascript">
+				var input3=document.getElementById("input3");
+				new range("#range3",{
+					onSlide:function(status){
+						input3.value=status.value;
+					}
+				},function(api){
+					api.setValue(20)
+				});
+			</script>
+
 			<div class="example">
 				<div class="call">
 					<h1>调用方法：</h1>
