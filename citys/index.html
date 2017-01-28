@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<select id="selProvince">
+        <option value="0">--请选择省份--</option>
+    </select>
+    <select id="selCity">
+        <option value="0">--请选择城市--</option>
+        
+    </select>
+    <select id="selDistrict">
+        <option value="0">--请选择区/县--</option>
+    </select>
+    <script type="text/javascript">
+    	window.onload = function() {
+    		ajaxsfa()
+    	};
+
+    	function ajaxsfa() {
+    		var request = new XMLHttpRequest();
+			request.open("GET","http://passer-by.com/data_location/list.json",true);
+			request.send();
+			request.onreadystatechange = function() {
+				if (request.readyState === 4) {
+					if (request.status === 200) {
+						var data = JSON.parse(request.responseText);
+						for (var i = 0; i < data.length; i++) {
+							console.log(data[i]);
+						}
+						//console.log(data);
+					} else {
+						alert("发生错误：" + request.status);
+					}
+				}
+			}
+    	}
+    </script>
+</body>
+</html>
