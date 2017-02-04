@@ -30,20 +30,9 @@
         <a href="/widget/">返回首页</a>
     </div>
     <div class="main">
-        <div id="demo" class="citys">
-            <p>
-                <select name="province"></select>
-                <select name="city"></select>
-                <select name="area"></select>
-            </p>
-        </div>
-        <div class="code">
-            <p>通过地区编码初始化设置</p>
-            <p>$('#demo').citys({code:350206});</p>
-        </div>
-        <script type="text/javascript">
-            // $('#demo').citys({code:350206});
+
         </script>
+
         <div id="demo1" class="citys">
             <p>
                 <select name="province"></select>
@@ -53,12 +42,20 @@
         </div>
         <div class="code">
             <p>通过地区名称初始化设置</p>
-            <p>$('#demo1').citys({province:'福建',city:'厦门',area:'思明区'});</p>
+<pre>
+new citys("#demo1", {
+    province: '江西',
+    city: '抚州',
+    area: '宜黄县',
+});
+</pre>
         </div>
         <script type="text/javascript">
-        	var vh=new citys("#demo1",{province:'福建',city:'厦门',area:'思明区'});
-        	console.log(vh)
-            // $('#demo1').citys({province:'福建',city:'厦门',area:'思明'});
+            new citys("#demo1", {
+                province: '江西',
+                city: '抚州',
+                area: '宜黄县',
+            });
         </script>
         <div id="demo2" class="citys">
             <p>
@@ -71,99 +68,67 @@
         <div class="code">
         <p>事件处理</p>
 <pre>
-$('#demo2').citys({
-required:false,
-nodata:'disabled',
-onChange:function(data){
-    var text = data['direct']?'(直辖市)':'';
-    $('#place').text('当前选中地区：'+data['province']+text+' '+data['city']+' '+data['area']);
-}
+var place=document.getElementById("place")
+new citys("#demo2", {
+    required: false,
+    nodata:'disabled',
+    onChange:function(data){
+        place.innerHTML='当前选中地区：'+data['province']+' '+data['city']+' '+data['area'];
+    }
 });
 </pre>
         </div>
         <script type="text/javascript">
-            // $('#demo2').citys({
-            //     required:false,
-            //     nodata:'disabled',
-            //     onChange:function(data){
-            //         var text = data['direct']?'(直辖市)':'';
-            //         $('#place').text('当前选中地区：'+data['province']+text+' '+data['city']+' '+data['area']);
-            //     }
-            // });
+            var place=document.getElementById("place")
+            new citys("#demo2", {
+                required: false,
+                nodata:'disabled',
+                onChange:function(data){
+                    place.innerHTML='当前选中地区：'+data['province']+' '+data['city']+' '+data['area'];
+                }
+            });
         </script>
+
+
+
     	<div id="demo3" class="citys">
             <p>
                 <select name="province"></select>
                 <select name="city"></select>
                 <select name="area"></select>
-                <select name="town"></select>
             </p>
+            <p id="place3">请选择地区</p>
         </div>
         <div class="code">
-          <p>扩展显示行政区划第四级(街道)信息：</p>
+        <p>事件处理</p>
 <pre>
-var $town = $('#demo3 select[name="town"]');
-var townFormat = function(info){
-$town.hide().empty();
-if(info['code']%1e4&&info['code']<7e6){	//是否为“区”且不是港澳台地区
-	$.ajax({
-		url:'http://passer-by.com/data_location/town/'+info['code']+'.json',
-		dataType:'json',
-		success:function(town){
-			$town.show();
-			for(i in town){
-					$town.append('&lt;option value="'+i+'"&gt;'+town[i]+'&lt;/option&gt;');
-			}
-		}
-	});
-}
-};
-$('#demo3').citys({
-    province:'福建',
-    city:'厦门',
-    area:'思明',
-    onChange:function(info){
-    	townFormat(info);
+var place=document.getElementById("place")
+new citys("#demo2", {
+    required: false,
+    nodata:'disabled',
+    onChange:function(data){
+        place3.innerHTML='当前选中地区：'+data['province']+' '+data['city']+' '+data['area'];
     }
-},function(api){
-    var info = api.getInfo();
-    townFormat(info);
 });
 </pre>
         </div>
         <script type="text/javascript">
-    		// var $town = $('#demo3 select[name="town"]');
-    		// var townFormat = function(info){
-    		// 	$town.hide().empty();
-    		// 	if(info['code']%1e4&&info['code']<7e5){	//是否为“区”且不是港澳台地区
-    		// 		$.ajax({
-    		// 			url:'http://passer-by.com/data_location/town/'+info['code']+'.json',
-    		// 			dataType:'json',
-    		// 			success:function(town){
-    		// 				$town.show();
-    		// 				for(i in town){
-    		// 						$town.append('<option value="'+i+'">'+town[i]+'</option>');
-    		// 				}
-    		// 			}
-    		// 		});
-    		// 	}
-    		// };
-      //       $('#demo3').citys({
-    		// 	province:'福建',
-    		// 	city:'厦门',
-    		// 	area:'思明',
-    		// 	onChange:function(info){
-    		// 		townFormat(info);
-    		// 	}
-    		// },function(api){
-    		// 	var info = api.getInfo();
-    		// 	townFormat(info);
-    		// });
+            var place3=document.getElementById("place3")
+            new citys("#demo3", {
+                required: false,
+                onChange:function(data){
+                    place3.innerHTML='当前选中地区：'+data['province']+' '+data['city']+' '+data['area'];
+                }
+            });
         </script>
+
+
+
+
         <div class="example">
             <div class="call">
                 <h1>调用方法：</h1>
-                <p>$(selector).citys(options,callback);</p>
+                <p>new citys("selector",options,callback(api));</p>
             </div>
             <h2> options参数</h2>
             <table>
@@ -179,16 +144,8 @@ $('#demo3').citys({
                         <td>dataUrl</td>
                         <td>[数据库地址]</td>
                         <td>
-                          <p>最新数据库（2016年12月）：<a href="http://passer-by.com/data_location/list.json" target="_blank">JSON格式</a><a href="http://passer-by.com/data_location/list.jsonp" target="_blank">JSONP格式</a></p>
-                          <p>数据库项目：<a href="https://github.com/mumuy/data_location" target="_blank">中国行政区划（省、市、区、街道）</a></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>dataType</td>
-                        <td>'json'</td>
-                        <td>
-                            <p>数据库类型:'json'或'jsonp'</p>
-                            <p class="warning">IE9-由于默认安全设置，需开启“通过域访问数据源”才能跨域访问json，此类情况建议使用jsonp格式</p>
+                          <p>最新数据库（2016年08月）：<a href="http://www.huanghanlian.com/data_location/list.json" target="_blank">JSON格式</a></p>
+                          <p>数据库项目：<a href="https://github.com/huanghanzhilian/data_location" target="_blank">中国行政区划</a></p>
                         </td>
                     </tr>
                     <tr>
@@ -207,24 +164,19 @@ $('#demo3').citys({
                         <td>地区(县区级)字段名</td>
                     </tr>
                     <tr>
-                        <td>code</td>
-                        <td>0</td>
-                        <td>地区编码</td>
-                    </tr>
-                    <tr>
                         <td>province</td>
                         <td>[无]</td>
-                        <td>省份(省级),可以为地区编码或者名称</td>
+                        <td>省份(省级),可以为地区名称</td>
                     </tr>
                     <tr>
                         <td>city</td>
                         <td>[无]</td>
-                        <td>城市(地级),可以为地区编码或者名称</td>
+                        <td>城市(地级),可以为地区名称</td>
                     </tr>
                     <tr>
                         <td>area</td>
                         <td>[无]</td>
-                        <td>地区(县区级),可以为地区编码或者名称</td>
+                        <td>地区(县区级),可以为地区名称</td>
                     </tr>
                     <tr>
                         <td>required</td>
@@ -239,7 +191,7 @@ $('#demo3').citys({
                     <tr>
                         <td>onChange</td>
                         <td>[无]</td>
-                        <td>地区切换时触发,回调函数传入地区信息:direct是否为直辖市,province省份(省级)名称,city城市(地级)名称,area地区(县区级)名称,code地区编码</td>
+                        <td>地区切换时触发,回调函数传入地区信息:province省份(省级)名称,city城市(地级)名称,area地区(县区级)名称</td>
                     </tr>
                 </tbody>
             </table>
@@ -254,7 +206,7 @@ $('#demo3').citys({
                 <tbody>
                     <tr>
                         <td>getInfo(data)</td>
-                        <td>获取当前选中的地区信息:direct是否为直辖市,province省份(省级)名称,city城市(地级)名称,area地区(县区级)名称,code地区编码</td>
+                        <td>获取当前选中的地区信息:province省份(省级)名称,city城市(地级)名称,area地区(县区级)名称,code地区编码</td>
                     </tr>
                 </tbody>
             </table>
@@ -265,7 +217,7 @@ $('#demo3').citys({
 
 
 <script type="text/javascript">
-	
 
-	
+
+
 </script>

@@ -92,3 +92,10 @@ new imagezoom(selector,{options});
 ```javascript
 new dialog(selector,{options});
 ```
+
+### 城市三级联动 - citys-原生js封装
+简介：最新最全的城市区划数据，自定义事件处理方式
+[演示](http://www.huanghanlian.com/widget/citys/)
+```javascript
+new citys("selector",options,callback(api));
+```

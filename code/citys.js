@@ -3,14 +3,12 @@
 		var self = this;
 		var defaults = {
 			dataUrl:'http://www.huanghanlian.com/data_location/list.json',     //数据库地址
-            dataType:'json',          //数据库类型:'json'或'jsonp'
             provinceField:'province', //省份字段名
             cityField:'city',         //城市字段名
             areaField:'area',         //地区字段名
-            code:0,                   //地区编码
-            province:0,               //省份,可以为地区编码或者名称
-            city:0,                   //城市,可以为地区编码或者名称
-            area:0,                   //地区,可以为地区编码或者名称
+            province:'',               //省份名称
+            city:'',                   //城市名称
+            area:'',                   //地区名称
             required: true,           //是否必须选一个
             nodata: 'hidden',         //当无数据时的表现形式:'hidden'隐藏,'disabled'禁用,为空不做任何处理
             onChange:function(){}     //地区切换时触发,回调函数传入地区数据
@@ -32,9 +30,6 @@
 			}), x
 		}
 
-		//this.containers=this.container[0];
-		//对象定义
-        //this._api = {};
         this.$this = this.container;
         this.$province = this.$this.find('select[name="'+this.options.provinceField+'"]'),
         this.$city = this.$this.find('select[name="'+this.options.cityField+'"]'),
@@ -69,26 +64,27 @@
 					if(this.options.province==this.data[i].name){
 						this.city[j]=this.data[i].city[j].name;
 						if(self.options.required && !self.options.city){
-							console.log(1)//self.options.city
+							self.options.city = this.city[0];
 						}
 						for (var l = 0; l < this.data[i].city[j].area.length; l++) {
 							if(this.options.city==this.data[i].city[j].name){
 								this.area[l]=this.data[i].city[j].area[l];
+								if(self.options.required && !self.options.area){
+									//console.log(this.area[0])
+									self.options.area = this.area[0];
+								}
 							}
 						}
 					}
 				}
 			}
-			// console.log(this.city)
-			// console.log(this.area)
 		},
 		provinces:function() {
 			var self = this;
-
-			//$province.empty();
 			if (!self.options.required) {
 				self.$province.append('<option value=""> - 请选择 - </option>');
 			}
+
 			for (var i=0;i < this.province.length;i++) {
 				self.$province.append('<option value="' + this.province[i] + '">' + this.province[i] + '</option>');
 			}
@@ -103,11 +99,24 @@
 			if (!self.options.required) {
 				self.$city.append('<option value=""> - 请选择 - </option>');
 			}
+			if (self.options.nodata == 'disabled') {
+				if(!isEmptyObject(self.city.length)){
+					self.$city[0].setAttribute('disabled',true);
+				}else{
+					self.$city[0].removeAttribute('disabled')
+				}
+			} else if (self.options.nodata == 'hidden') {
+				if(!isEmptyObject(self.city.length)){
+					self.$city[0].style.display = "none";
+				}else{
+					self.$city[0].style.display = "";
+				}
+			}
 			for (var i=0;i < this.city.length;i++) {
 				self.$city.append('<option value="' + this.city[i] + '">' + this.city[i] + '</option>');
 			}
 			if (self.options.city) {
-				self.$city[0].value=self.options.city;//(self.options.province);
+				self.$city[0].value=self.options.city;
 			}
 			this.areas();
 		},
@@ -117,12 +126,40 @@
 			if (!self.options.required) {
 				self.$area.append('<option value=""> - 请选择 - </option>');
 			}
+			if (!isEmptyObject(self.city.length)) {
+				self.$area[0].style.display = "none";
+			} else {
+				self.$area[0].style.display = "";
+				if (self.options.nodata == 'disabled') {
+					if (!isEmptyObject(self.area.length)) {
+						self.$area[0].setAttribute('disabled', true);
+					} else {
+						self.$area[0].removeAttribute('disabled')
+					}
+				} else if (self.options.nodata == 'hidden') {
+					if (!isEmptyObject(self.area.length)) {
+						self.$area[0].style.display = "none";
+					} else {
+						self.$area[0].style.display = "";
+					}
+				}
+			}
 			for (var i=0;i < this.area.length;i++) {
 				self.$area.append('<option value="' + this.area[i] + '">' + this.area[i] + '</option>');
 			}
 			if (self.options.area) {
-				self.$area[0].value=self.options.area;//(self.options.province);
+				self.$area[0].value=self.options.area;
 			}
+		},
+		//获取当前地理信息
+		getInfo:function() {
+			var self = this;
+			var status = {
+				province: self.options.province || '',
+				city: self.options.city || '',
+				area: self.options.area || '',
+			};
+			return status;
 		},
 		//事件绑定
 		event: function() {
@@ -132,16 +169,24 @@
 				self.options.city = "";
                 self.options.area = "";
                 self.city.length=0;
-                self.city.area=0;
-                
+                self.area.length=0;
                 self.updateData();
                 self.citys();
-                console.log(self.options.province)
-                console.log(self.options.city)
+               	self.options.onChange(self.getInfo());
 			}, false);
-			//$province
-// $city
-// $area
+			this.$city[0].addEventListener("change", function() {
+				self.options.city = self.$city[0].value;
+                self.options.area = "";
+                self.area.length=0;
+                self.updateData();
+                self.areas();
+                self.options.onChange(self.getInfo());
+			}, false);
+			this.$area[0].addEventListener("change", function() {
+				self.options.area = self.$area[0].value;
+				self.options.onChange(self.getInfo());
+			}, false);
+
 
 		},
 		//初始化
@@ -168,6 +213,14 @@
 	function emptys(selector){
 		while (selector.firstChild){
 			selector.removeChild(selector.firstChild);
+		}
+	}
+	//判断真假
+	function isEmptyObject(obj){
+		if(obj){
+			return true;
+		}else{
+			return false;
 		}
 	}
 
