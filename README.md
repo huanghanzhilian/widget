@@ -20,10 +20,17 @@ new range("selector",options,callback(api));
 ```
 
 ### 滚动条-原生js封装
+简介：日期及日期范围选择，灵活的日期选择功能
+[演示](http://www.huanghanlian.com/widget/calendar/)
+```javascript
+new scrollbar("selector",options,callback(api));
+```
+
+### 日历-原生js封装
 简介：模拟滚动条，支持手势操作，支持移动端+PC
 [演示](http://www.huanghanlian.com/widget/scrollbar/)
 ```javascript
-new scrollbar("selector",options,callback(api));
+new calendar("selector",options);
 ```
 
 ### 无缝轮播图-原生js封装

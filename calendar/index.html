@@ -77,43 +77,41 @@
             <div class="code">
                 <p>今天到明年元旦可选，选择一个区间</p>
 <pre>
-var year = (new Date()).getFullYear()+1;
-$('.calendar1').calendar({
-    limitRange:[['today',year+'0101']],
-    isRange:true
+var year = (new Date()).getFullYear() + 1;
+new calendar('.calendar1', {
+    limitRange: [
+        ['today', year + '0101']
+    ],
+    isRange: true
 });
 </pre>
             </div>
             <script type="text/javascript">
-                var year = (new Date()).getFullYear()+1;
-                // $('.calendar1').calendar({
-                //     limitRange:[['today',year+'0101']],
-                //     isRange:true
-                // });
-                var h=new calendar('.calendar1',{
-                    limitRange:[['today',year+'0101']],
-                    isRange:true
+                var year = (new Date()).getFullYear() + 1;
+                new calendar('.calendar1', {
+                    limitRange: [
+                        ['today', year + '0101']
+                    ],
+                    isRange: true
                 });
-                //Calendar()
-                console.log(h)
             </script>
             <div class="calendar calendar2"></div>
             <div class="code">
                 <p>选择某一天</p>
 <pre>
-$('.calendar2').calendar({
-    'onSelect':function(range){
-        alert('你选择了'+range[0]['year']+'-'+range[0]['month']+'-'+range[0]['day']);
+new calendar('.calendar2', {
+    'onSelect': function(range) {
+        alert('你选择了' + range[0]['year'] + '-' + range[0]['month'] + '-' + range[0]['day']);
     }
 });
 </pre>
             </div>
             <script type="text/javascript">
-                // $('.calendar2').calendar({
-                //     'onSelect':function(range){
-                //         alert('你选择了'+range[0]['year']+'-'+range[0]['month']+'-'+range[0]['day']);
-                //     }
-                // });
+                new calendar('.calendar2', {
+                    'onSelect': function(range) {
+                        alert('你选择了' + range[0]['year'] + '-' + range[0]['month'] + '-' + range[0]['day']);
+                    }
+                });
             </script>
             <div class="calendar calendar3"></div>
             <div class="code">
@@ -121,26 +119,30 @@ $('.calendar2').calendar({
 <pre>
 var today = new Date();
 var year = today.getFullYear();
-var month = today.getMonth()+1;
-var string = year+(month>9?month:'0'+month);
-$('.calendar3').calendar({
-    highlightRange:[[string+'15',string+'16']]
+var month = today.getMonth() + 1;
+var string = year + (month > 9 ? month : '0' + month);
+new calendar('.calendar3', {
+    highlightRange: [
+        [string + '15', string + '16']
+    ]
 });
 </pre>
             </div>
             <script type="text/javascript">
-                // var today = new Date();
-                // var year = today.getFullYear();
-                // var month = today.getMonth()+1;
-                // var string = year+(month>9?month:'0'+month);
-                // $('.calendar3').calendar({
-                //     highlightRange:[[string+'15',string+'16']]
-                // });
+                var today = new Date();
+                var year = today.getFullYear();
+                var month = today.getMonth() + 1;
+                var string = year + (month > 9 ? month : '0' + month);
+                new calendar('.calendar3', {
+                    highlightRange: [
+                        [string + '15', string + '16']
+                    ]
+                });
             </script>
             <div class="example">
                 <div class="call">
                     <h1>调用方法：</h1>
-                    <p>$(selector).calendar(options);</p>
+                    <p>new calendar("selector",options);</p>
                 </div>
                 <h2>options参数</h2>
                 <table>

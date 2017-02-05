@@ -100,7 +100,25 @@
 					var $this=oSrc.parentNode.tagName.toUpperCase()=="TD"?oSrc.parentNode:oSrc;
 					var index = $this.getAttribute('data-id');
 					var day = self._data[index];
-                	console.log(day)
+					if (day['status'] != 'disabled') {
+						if (self.options.isRange) {
+							if (self._range.length != 1) {
+								self._range = [day];
+								self.format(self._data);
+							} else {
+								self._range.push(day);
+								self._range.sort(function(a, b) {
+									return a['code'] > b['code'];
+								});
+								self.format(self._data);
+								self.options.onSelect(self._range);
+							}
+						} else {
+							self._range = [day];
+							self.format(self._data);
+							self.options.onSelect(self._range);
+						}
+					}
 				}
 			}, false);
 
