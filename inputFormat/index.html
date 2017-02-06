@@ -24,26 +24,32 @@
 			<p>货币：<input type="text" name="currency" placeholder="100,000.00"></p>
 		</div>
 		<div class="code">
-			$('input[name="currency"]').inputFormat();
+			<p>货比格式</p>
+			new inputFormat('input[name="currency"]');
 		</div>
 		<script>
-			var hk=new inputFormat('input[name="currency"]');
-			console.log(hk)
-			// $('input[name="currency"]').inputFormat();
+			new inputFormat('input[name="currency"]');
 		</script>
 		<div class="input">
 			<p>手机号：<input type="text" name="mobile" placeholder="188 8888 8888"></p>
 		</div>
 		<div class="code">
-			$('input[name="mobile"]').inputFormat({type:'mobile'});
+		<p>手机格式</p>
+<pre>
+new inputFormat('input[name="mobile"]', {
+	type: 'mobile'
+});
+</pre>
 		</div>
 		<script>
-			// $('input[name="mobile"]').inputFormat({type:'mobile'});
+			new inputFormat('input[name="mobile"]', {
+				type: 'mobile'
+			});
 		</script>
 		<div class="example">
 			<div class="call">
 				<h1>调用方法：</h1>
-				<p>$(selector).inputFormat(options,callback);</p>
+				<p>new inputFormat("selector",options,callback(api));</p>
 			</div>
 			<h2>options参数</h2>
 			<table>
@@ -77,7 +83,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>format(value)</td>
+						<td>formats(value)</td>
 						<td>格式化指定值,返回格式化后结果</td>
 					</tr>
 					<tr>

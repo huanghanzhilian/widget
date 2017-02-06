@@ -106,3 +106,10 @@ new dialog(selector,{options});
 ```javascript
 new citys("selector",options,callback(api));
 ```
+
+### 格式化输入框-inputFormat-原生js封装
+简介：格式化输入，方便验证
+[演示](http://www.huanghanlian.com/widget/inputFormat/)
+```javascript
+new inputFormat("selector",options,callback(api));
+```

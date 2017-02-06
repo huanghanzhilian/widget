@@ -1,12 +1,12 @@
 (function() {
-	var InputFormat = function(el, opts,getApi) {
+	var InputFormat = function(el, opts, getApi) {
 		var self = this;
 		var defaults = {
-			type:'currency',
-            tofixed:2
+			type: 'currency',
+			tofixed: 2
 		}
 		opts = opts || {};
-		getApi = getApi||function(){};
+		getApi = getApi || function() {};
 		for (var w in defaults) {
 			if ("undefined" == typeof opts[w]) {
 				opts[w] = defaults[w];
@@ -18,11 +18,45 @@
 		if (this.container.length > 1) {
 			var x = [];
 			return this.container.each(function() {
-				x.push(new InputFormat(this, opts,getApi))
+				x.push(new InputFormat(this, opts, getApi))
 			}), x
 		}
-
-		//this.containers=this.container[0];
+		//对象定义
+        this.$this = this.container;
+		this.format = {
+			currency: function(str, tofixed) {
+				var reg = new RegExp('([\\d,]+\\.?(\\d{0,' + tofixed + '})?).*'); //位数截取
+				str = str.replace(/[^\d\.]/g, '').replace(/^[^\d]/, '').replace(reg, '$1'); //清除格式
+				var value = (+str).toFixed(tofixed);
+				var result = '';
+				if (str) {
+					var number = value.split('.')[0];
+					if (number) { //处理整数部分
+						number = number.replace(/\d(?=(?:\d{3})+\b)/g, '$&,');
+					}
+					result = str.replace(/(\d)*(\.\d*)?/, number + '$2'); //和小数部分拼接
+				}
+				return result;
+			},
+			mobile: function(str) {
+				var temp = (str.replace(/\s/g, '') + 'xxxxxxxxxxx').substr(0, 11);
+				var result = Trim(temp.replace(/x/g, '').replace(/^(\d{7})/, '$1 ').replace(/^(\d{3})/, '$1 '));
+				if (temp.match(/^1[3|4|5|7|8|x][0-9x]{9}/)) {
+					return result;
+				} else {
+					return result.substr(0, result.length - 1);
+				}
+			}
+		};
+		this.formats = function(value){
+            return this.format[this.options.type](value,this.options.tofixed);
+        };
+        this.setValue = function(value){
+            var s = this.format[this.options.type](value,this.options.tofixed);
+            if(s!=value){
+                this.$this[0].value=s;
+            }
+        };
 
 		this.init();
 		getApi(this);
@@ -31,13 +65,17 @@
 		//初始化
 		init: function() {
 			var self = this;
-			//渲染dom
-			//this.renderDOM();
+			this.$this[0].addEventListener("input", function() {
+				var value = self.$this[0].value;
+                self.setValue(value);
+			}, false);
 		},
-		
-}
 
+	}
 
+	function Trim(str){
+		return str.replace(/(^\s*)|(\s*$)/g, "");
+	}
 
 	function getStyle(obj, attr) {
 		if (obj.currentStyle) {
