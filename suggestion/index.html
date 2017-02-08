@@ -58,18 +58,7 @@
 		<div class="code">
 			<p>百度搜索建议</p>
 <pre>
-$('.search input[type="text"]').suggestion({
-url:'http://suggestion.baidu.com/su',
-FieldName:'wd',
-jsonp:'cb',
-callback:function(item){
-	var data = item['data']['s'];
-	item.target.empty();
-	for(var i=0;i&lt;data.length;i++){
-		item.target.append('&lt;li&gt;'+data[i]+'&lt;/li&gt;');
-	}
-}
-});
+
 </pre>
 		</div>
 		<script type="text/javascript">
