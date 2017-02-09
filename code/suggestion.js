@@ -2,12 +2,23 @@
 	var Suggestion = function(el, opts,getApi) {
 		var self = this;
 		var defaults = {
-            prefix:'widget',            //生成日历的class前缀
-            isRange:false,              //是否选择范围
-            limitRange:[],              //有效选择区域的范围
-            highlightRange:[],          //指定日期范围高亮
-            onChange:function(){},      //当前选中月份修改时触发
-            onSelect:function(){}       //选择日期时触发
+            url:'',                          //请求的接口地址
+            suggestionCls:'suggestion',      //提示框的内容class
+            activeCls:'active',              //列表项选中class
+            dynamic:true,                    //动态
+            FieldName:'word',                //当前input表单项在请求接口时的字段名
+            dataFormat:'jsonp',              //请求的格式
+            parameter:{},                    //其他与接口有关参数
+            jsonpCallback:'',                //自定义回调函数
+            autoSubmit:true,                 //点击确定是否自动提交表单
+            beforeSend:function(){},         //发送前动作：传入准备提交的表单项目，返回false终止提交
+            callback:function(){},           //获得数据后触发：传入一个对象，target表示被建议列表对象,data表示请求到的数据
+            onChange:function(item){         //用户按键盘切换时触发
+                item.input.val(item.target.text());
+            },
+            onSelect: function(item) {       //选中搜索建议列表项触发：传入一个对象，target表示当前选中列表项,input表示当前input表单项
+                item.input.val(item.target.text());
+            }
         };
 		opts = opts || {};
 		getApi = getApi||function(){};
@@ -25,8 +36,30 @@
 				x.push(new Suggestion(this, opts,getApi))
 			}), x
 		}
-
+		this.$window = window;
+        this.$document = document;
         this.$this = this.container;
+        this.$form = this.$this.parent();
+        //this.$box = $this.parent();
+        //console.log(this.$this)
+        //this.$suggestion = $form.find('.'+options.suggestionCls);
+
+        function get_nextSibling(n){
+	        var x=n.nextSibling;
+	        while (x && x.nodeType!=1){
+	            x=x.nextSibling;
+	        }
+	        return x;
+	    }
+	    function get_childNodes(n){
+	    	var addr=[];
+	    	for (var i = 0; i < n.length; i++) {
+	    		if(n[i].nodeType==1){
+	    			addr.push(n[i]);
+	    		}
+	    	}
+	        return addr;
+	    }
 
 
         self.init();
@@ -97,6 +130,13 @@
 				for (var t = [], r = 0; r < this.length; r++)
 					for (var i = this[r].querySelectorAll(a), s = 0; s < i.length; s++) t.push(i[s]);
 				return new e(t)
+			},
+			parent:function(a){
+				for (var t = [], r = 0; r < this.length; r++){
+					for (var i = this[r].parentNode, s = 0; s < i.length; s++) t.push(i[s]);
+					return new e(t)
+					//console.log(this[r].parentNode)
+				}
 			},
 			append: function(a) {
 				var t, r;
