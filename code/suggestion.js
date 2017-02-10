@@ -40,9 +40,7 @@
         this.$document = document;
         this.$this = this.container;
         this.$form = this.$this.parent();
-        //this.$box = $this.parent();
-        //console.log(this.$this)
-        //this.$suggestion = $form.find('.'+options.suggestionCls);
+        this.$suggestion = this.$form.find('.'+options.suggestionCls);
 
         function get_nextSibling(n){
 	        var x=n.nextSibling;
@@ -131,9 +129,13 @@
 					for (var i = this[r].querySelectorAll(a), s = 0; s < i.length; s++) t.push(i[s]);
 				return new e(t)
 			},
-			parent:function(a){
+			parent: function() {
 				for (var t = [], r = 0; r < this.length; r++){
-					for (var i = this[r].parentNode, s = 0; s < i.length; s++) t.push(i[s]);
+					t.push(this[r].parentNode);
+					// for (var i = this[r].parentNode, s = 0; s < i.length; s++){
+
+					// 	t.push(i[s]);
+					// }
 					return new e(t)
 					//console.log(this[r].parentNode)
 				}
