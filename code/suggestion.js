@@ -67,7 +67,7 @@
 		//初始化
 		init: function() {
 			var self = this;
-			console.log(1)
+			console.log(2)
 		},
 
 }
