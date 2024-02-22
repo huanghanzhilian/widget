@@ -1,109 +1,132 @@
-# web组件
 
+<p align="center">
+	<img alt="logo" src="./public/image/widget.png" width="300">
+</p>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">H-Widget v1.0.0</h1>
 
-- 项目演示(DEMO)地址：http://widget.huanghanlian.com/
+<h4 align="center">A component library developed with native JavaScript, including components such as carousel, tab, dropdown, dialog, etc.</h4>
 
+## README.md
+- [English](README.md)
+- [简体中文](README.zh_CN.md)
+
+## Project Demo
+
+**Project Demo:**
+
+- GitHub Pages Deployment: [http://widget.huanghanlian.com/](http://widget.huanghanlian.com/)
+
+## Project Introduction
+
+**Background:**
+With the rise of various frameworks nowadays, we seldom think about how native JS works, understanding native JS is also very important～
 
 ---
 
-### 滑动条-原生js封装
-简介：进度及范围控制，支持手势操作，支持移动端+PC
-[演示](http://widget.huanghanlian.com/range/)
+## How to Use
+
+### Slider - Native JavaScript Encapsulation
+Description: Progress and range control, supports gesture operation, supports mobile and PC
+[Demonstration](http://widget.huanghanlian.com/range/)
 ```javascript
-new range("selector",options,callback(api));
+new range("selector", options, callback(api));
 ```
 
-### 滚动条-原生js封装
-简介：模拟滚动条，支持手势操作，支持移动端+PC
-[演示](http://widget.huanghanlian.com/scrollbar/)
+### Scrollbar - Native JavaScript Encapsulation
+Description: Simulated scrollbar, supports gesture operation, supports mobile and PC
+[Demonstration](http://widget.huanghanlian.com/scrollbar/)
 ```javascript
-new scrollbar("selector",options,callback(api));
+new scrollbar("selector", options, callback(api));
 ```
 
-### 日历-原生js封装
-简介：日期及日期范围选择，灵活的日期选择功能
-[演示](http://widget.huanghanlian.com/calendar/)
+### Calendar - Native JavaScript Encapsulation
+Description: Date and date range selection, flexible date selection function
+[Demonstration](http://widget.huanghanlian.com/calendar/)
 ```javascript
-new calendar("selector",options);
+new calendar("selector", options);
 ```
 
-### 无缝轮播图-原生js封装
-简介：无缝滚动、响应式、参数可调控等等
-[演示](http://widget.huanghanlian.com/bannerha/)
+### Seamless Carousel - Native JavaScript Encapsulation
+Description: Seamless scrolling, responsive, adjustable parameters, etc.
+[Demonstration](http://widget.huanghanlian.com/bannerha/)
 ```javascript
-new bannerha(selector,{options});
+new bannerha(selector, { options });
 ```
 
-
-### Tab面板-原生js封装
-简介：Tab面板、响应式、参数可调控等等
-[演示](http://widget.huanghanlian.com/tabpanel/)
+### Tab Panel - Native JavaScript Encapsulation
+Description: Tab panel, responsive, adjustable parameters, etc.
+[Demonstration](http://widget.huanghanlian.com/tabpanel/)
 ```javascript
-new tabpanel(selector,{options});
+new tabpanel(selector, { options });
 ```
 
-
-### 无缝向上滚动-原生js封装
-简介：无缝滚动、间隔滚动、响应式、参数可调控等等
-[演示](http://widget.huanghanlian.com/scrollup/)
+### Seamless Scroll Up - Native JavaScript Encapsulation
+Description: Seamless scrolling, interval scrolling, responsive, adjustable parameters, etc.
+[Demonstration](http://widget.huanghanlian.com/scrollup/)
 ```javascript
-new scrollup(selector,{options});
+new scrollup(selector, { options });
 ```
 
-
-
-### 放大镜-原生js封装
-简介：电商放大镜封装、参数可调控等等
-[演示](http://widget.huanghanlian.com/magnifier/)
+### Magnifier - Native JavaScript Encapsulation
+Description: E-commerce magnifier encapsulation, adjustable parameters, etc.
+[Demonstration](http://widget.huanghanlian.com/magnifier/)
 ```javascript
-new magnifier(selector,{options});
+new magnifier(selector, { options });
 ```
 
-### 倒计时-原生js封装
-简介：倒计时、参数可调控等等
-[演示](http://widget.huanghanlian.com/countdown/)
+### Countdown - Native JavaScript Encapsulation
+Description: Countdown, adjustable parameters, etc.
+[Demonstration](http://widget.huanghanlian.com/countdown/)
 ```javascript
-new countdown(selector,{options});
+new countdown(selector, { options });
 ```
 
-### 下拉框-原生js封装
-简介：下拉框、支持键盘事件、参数可调控等等
-[演示](http://widget.huanghanlian.com/select/)
+### Dropdown - Native JavaScript Encapsulation
+Description: Dropdown, supports keyboard events, adjustable parameters, etc.
+[Demonstration](http://widget.huanghanlian.com/select/)
 ```javascript
-new select(selector,{options});
+new select(selector, { options });
 ```
 
-### 标签页-tabs-原生js封装
-简介：简易标签切换及淡入淡出幻灯片功能
-[演示](http://widget.huanghanlian.com/tabs/)
+### Tabs - Native JavaScript Encapsulation
+Description: Simple tab switching and fade in and out slideshow functions
+[Demonstration](http://widget.huanghanlian.com/tabs/)
 ```javascript
-new tabs(selector,{options});
+new tabs(selector, { options });
 ```
 
-### 图片聚焦-imagezoom-原生js封装
-简介：图片居中及缩放处理
-[演示](http://widget.huanghanlian.com/imagezoom/)
+### Image Zoom - Native JavaScript Encapsulation
+Description: Image centering and scaling processing
+[Demonstration](http://widget.huanghanlian.com/imagezoom/)
 ```javascript
-new imagezoom(selector,{options});
+new imagezoom(selector, { options });
 ```
 
-### 弹出框-dialog-原生js封装
-简介：个性弹出层，自定义弹出位置，巧妙的定位方式
-[演示](http://widget.huanghanlian.com/dialog/)
+### Dialog - Native JavaScript Encapsulation
+Description: Personalized popup layer, custom popup position, clever positioning method
+[Demonstration](http://widget.huanghanlian.com/dialog/)
 ```javascript
-new dialog(selector,{options});
+new dialog(selector, { options });
 ```
 
-### 城市三级联动 - citys-原生js封装
-简介：最新最全的城市区划数据，自定义事件处理方式
-[演示](http://widget.huanghanlian.com/citys/)
+### City Selector - Native JavaScript Encapsulation
+Description: Latest and most complete city subdivision data, custom event handling method
+[Demonstration](http://widget.huanghanlian.com/citys/)
 ```javascript
-new citys("selector",options,callback(api));
+new citys("selector", options, callback(api));
 ```
 
-### 格式化输入框-inputFormat-原生js封装
-简介：格式化输入，方便验证
-[演示](http://widget.huanghanlian.com/inputFormat/)
+### Input Formatter - Native JavaScript Encapsulation
+Description: Input formatting for easy validation
+[Demonstration](http://widget.huanghanlian.com/inputFormat/)
 ```javascript
-new inputFormat("selector",options,callback(api));
+new inputFormat("selector", options, callback(api));
 ```
+
+## License
+
+[Apache License 2.0](https://github.com/huanghanzhilian/widget/blob/master/LICENSE)
+
+MIT License
+
+Copyright (c) 2024 Jipeng Huang
